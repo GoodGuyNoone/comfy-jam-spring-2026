@@ -11,20 +11,28 @@ extends Node
 @onready var vase = $'../Vase'
 @onready var moving_flowers = $'../MovingFlowers'
 @onready var test_label: Label = $'../TestLabel'
+@onready var feedback_label: Label = $'../FeedbackLabel'
+@onready var submit_button: Button = $'../UI/SubmitButton'
+
 
 var is_animating: bool = false
 var current_order: Array[StringName] = []
+
 
 func _ready() -> void:
 	randomize()
 	start_round()
 	flower_stand.flower_selected.connect(_on_flower_selected)
+	submit_button.pressed.connect(_on_submit_pressed)
+
 
 func start_round():
 	current_order = generate_order(5)
 	print("New order:", current_order)
 	vase.clear_vase()
 	update_receipt_ui()
+	# feedback_label.text = ""
+
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2) -> void:
 	if is_animating:
@@ -56,6 +64,22 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	vase.finalize_flower(flower_instance, flower_id)
 	is_animating = false
 
+
+func _on_submit_pressed() -> void:
+	if is_animating:
+		return
+
+	print("Order: ", current_order)
+	print("Bouquet: ", vase.get_flowers())
+	print("Valid: ", is_bouquet_correct())
+	
+	if is_bouquet_correct():
+		feedback_label.text = "Correct"
+		start_round()
+	else:
+		feedback_label.text = "Wrong"
+
+
 func generate_order(count: int = 5) -> Array[StringName]:
 	var order: Array[StringName] = []
 
@@ -65,6 +89,7 @@ func generate_order(count: int = 5) -> Array[StringName]:
 	
 	return order
 
+
 func update_receipt_ui():
 	var text := "Order: "
 
@@ -72,3 +97,23 @@ func update_receipt_ui():
 		text += flower + " "
 	
 	test_label.text = text
+
+
+func get_flower_counts(flowers: Array[StringName]) -> Dictionary:
+	var counts := {}
+
+	for flower in flowers:
+		if not counts.has(flower):
+			counts[flower] = 0
+		counts[flower] += 1
+	
+	return counts
+
+
+func is_bouquet_correct() -> bool:
+	var bouquet: Array[StringName] = vase.get_flowers()
+
+	if bouquet.size() != current_order.size():
+		return false
+	
+	return get_flower_counts(bouquet) == get_flower_counts(current_order)
