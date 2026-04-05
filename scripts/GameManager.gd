@@ -1,15 +1,30 @@
 extends Node
 
 @export var flower_scene: PackedScene
+@export var available_flowers: Array[StringName] = [
+	"rose",
+	"tulip",
+	# "lily",
+]
 
 @onready var flower_stand: Node2D = $'../FlowerStand'
 @onready var vase = $'../Vase'
 @onready var moving_flowers = $'../MovingFlowers'
+@onready var test_label: Label = $'../TestLabel'
 
 var is_animating: bool = false
+var current_order: Array[StringName] = []
 
 func _ready() -> void:
+	randomize()
+	start_round()
 	flower_stand.flower_selected.connect(_on_flower_selected)
+
+func start_round():
+	current_order = generate_order(5)
+	print("New order:", current_order)
+	vase.clear_vase()
+	update_receipt_ui()
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2) -> void:
 	if is_animating:
@@ -40,3 +55,20 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 
 	vase.finalize_flower(flower_instance, flower_id)
 	is_animating = false
+
+func generate_order(count: int = 5) -> Array[StringName]:
+	var order: Array[StringName] = []
+
+	for i in range(count):
+		var random_index = randi() % available_flowers.size()
+		order.append(available_flowers[random_index])
+	
+	return order
+
+func update_receipt_ui():
+	var text := "Order: "
+
+	for flower in current_order:
+		text += flower + " "
+	
+	test_label.text = text

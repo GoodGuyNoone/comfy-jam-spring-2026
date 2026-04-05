@@ -29,7 +29,6 @@ script = ExtResource("3_c01mt")
 
 [node name="Marker2D" type="Marker2D" parent="Vase/Slots" unique_id=1141565000]
 position = Vector2(56, 241)
-skew = -0.7958701
 
 [node name="Marker2D2" type="Marker2D" parent="Vase/Slots" unique_id=1818269150]
 position = Vector2(70, 241)
@@ -63,3 +62,9 @@ script = ExtResource("4_nxtc6")
 flower_scene = ExtResource("1_rarhs")
 
 [node name="MovingFlowers" type="Node2D" parent="." unique_id=1842306925]
+
+[node name="TestLabel" type="Label" parent="." unique_id=1315127865]
+offset_left = 180.0
+offset_top = 237.0
+offset_right = 220.0
+offset_bottom = 260.0
