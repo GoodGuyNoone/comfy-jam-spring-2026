@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ce38d8wtub6wv" path="res://scripts/FlowerStand.gd" id="1_vcsgt"]
 [ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="2_vcsgt"]
 [ext_resource type="Script" uid="uid://du4w4o8sp37a4" path="res://scripts/Vase.gd" id="3_c01mt"]
-[ext_resource type="Texture2D" uid="uid://76wepwwtpck1" path="res://icon.svg" id="3_nxtc6"]
+[ext_resource type="Texture2D" uid="uid://bgouwf7whugem" path="res://assets/aseprite/flowers/tulip.png" id="3_nxtc6"]
 [ext_resource type="Script" uid="uid://cfy5a3qojw0rf" path="res://scripts/GameManager.gd" id="4_nxtc6"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]

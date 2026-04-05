@@ -78,6 +78,7 @@ func _on_submit_pressed() -> void:
 		start_round()
 	else:
 		feedback_label.text = "Wrong"
+		start_round()
 
 
 func generate_order(count: int = 5) -> Array[StringName]:
