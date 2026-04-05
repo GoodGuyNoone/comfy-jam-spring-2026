@@ -1,14 +1,19 @@
 [gd_scene format=3 uid="uid://c77pklvidmtbi"]
 
+[ext_resource type="PackedScene" uid="uid://c6m51ugl7vqsq" path="res://scenes/Flower.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="2_0wfyh"]
+
 [node name="Main" type="Node2D" unique_id=1415871271]
 
 [node name="FlowerStand" type="Node2D" parent="." unique_id=707425049]
 
-[node name="Flower_01" type="Area2D" parent="FlowerStand" unique_id=1741728276]
+[node name="Flower2" parent="FlowerStand" unique_id=1026794971 instance=ExtResource("1_o5qli")]
+position = Vector2(236.58212, 142.62534)
 
-[node name="Sprite2D" type="Sprite2D" parent="FlowerStand/Flower_01" unique_id=1133879974]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FlowerStand/Flower_01" unique_id=530228433]
+[node name="Flower" parent="FlowerStand" unique_id=1067509154 instance=ExtResource("1_o5qli")]
+position = Vector2(32, 50)
+flower_id = "rose"
+texture = ExtResource("2_0wfyh")
 
 [node name="Vase" type="Node2D" parent="." unique_id=936332133]
 
