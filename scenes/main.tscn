@@ -1,33 +1,52 @@
 [gd_scene format=3 uid="uid://c77pklvidmtbi"]
 
-[ext_resource type="PackedScene" uid="uid://c6m51ugl7vqsq" path="res://scenes/Flower.tscn" id="1_o5qli"]
-[ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c6m51ugl7vqsq" path="res://scenes/Flower.tscn" id="1_rarhs"]
+[ext_resource type="Script" uid="uid://ce38d8wtub6wv" path="res://scripts/FlowerStand.gd" id="1_vcsgt"]
+[ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="2_vcsgt"]
+[ext_resource type="Script" uid="uid://du4w4o8sp37a4" path="res://scripts/Vase.gd" id="3_c01mt"]
+[ext_resource type="Texture2D" uid="uid://76wepwwtpck1" path="res://icon.svg" id="3_nxtc6"]
+[ext_resource type="Script" uid="uid://cfy5a3qojw0rf" path="res://scripts/GameManager.gd" id="4_nxtc6"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
 
 [node name="FlowerStand" type="Node2D" parent="." unique_id=707425049]
+script = ExtResource("1_vcsgt")
 
-[node name="Flower2" parent="FlowerStand" unique_id=1026794971 instance=ExtResource("1_o5qli")]
-position = Vector2(236.58212, 142.62534)
+[node name="Flower2" parent="FlowerStand" unique_id=1026794971 instance=ExtResource("1_rarhs")]
+position = Vector2(53, 51)
+flower_id = "tulip"
+flower_texture = ExtResource("3_nxtc6")
 
-[node name="Flower" parent="FlowerStand" unique_id=1067509154 instance=ExtResource("1_o5qli")]
+[node name="Flower" parent="FlowerStand" unique_id=1067509154 instance=ExtResource("1_rarhs")]
 position = Vector2(32, 50)
 flower_id = "rose"
-texture = ExtResource("2_0wfyh")
+flower_texture = ExtResource("2_vcsgt")
 
 [node name="Vase" type="Node2D" parent="." unique_id=936332133]
+script = ExtResource("3_c01mt")
 
 [node name="Slots" type="Node2D" parent="Vase" unique_id=1041609149]
 
-[node name="Marker2D" type="Marker2D" parent="Vase/Slots" unique_id=545988994]
+[node name="Marker2D" type="Marker2D" parent="Vase/Slots" unique_id=1141565000]
+position = Vector2(56, 241)
+skew = -0.7958701
 
-[node name="Marker2D2" type="Marker2D" parent="Vase/Slots" unique_id=1953109448]
+[node name="Marker2D2" type="Marker2D" parent="Vase/Slots" unique_id=1818269150]
+position = Vector2(70, 241)
 
-[node name="Marker2D3" type="Marker2D" parent="Vase/Slots" unique_id=1790552017]
+[node name="Marker2D3" type="Marker2D" parent="Vase/Slots" unique_id=961006166]
+position = Vector2(88, 241)
+rotation = 0.17453292
 
-[node name="Marker2D4" type="Marker2D" parent="Vase/Slots" unique_id=457011105]
+[node name="Marker2D5" type="Marker2D" parent="Vase/Slots" unique_id=770439939]
+position = Vector2(62, 251)
+rotation = -0.08726646
 
-[node name="Marker2D5" type="Marker2D" parent="Vase/Slots" unique_id=276999153]
+[node name="Marker2D6" type="Marker2D" parent="Vase/Slots" unique_id=1865621652]
+position = Vector2(77, 251)
+rotation = 0.08726646
+
+[node name="FlowersContainer" type="Node2D" parent="Vase" unique_id=1610654406]
 
 [node name="Customer" type="Node2D" parent="." unique_id=1114677330]
 
@@ -38,3 +57,9 @@ texture = ExtResource("2_0wfyh")
 [node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
 offset_right = 8.0
 offset_bottom = 8.0
+
+[node name="GameManager" type="Node2D" parent="." unique_id=483342966]
+script = ExtResource("4_nxtc6")
+flower_scene = ExtResource("1_rarhs")
+
+[node name="MovingFlowers" type="Node2D" parent="." unique_id=1842306925]

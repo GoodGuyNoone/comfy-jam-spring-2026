@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c6m51ugl7vqsq"]
 
 [ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="1_n3sah"]
-[ext_resource type="Script" uid="uid://yg5ngc3a7fg4" path="res://scripts/flower.gd" id="1_sae6b"]
+[ext_resource type="Script" uid="uid://yg5ngc3a7fg4" path="res://scripts/Flower.gd" id="1_sae6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sae6b"]
 size = Vector2(16, 32)
