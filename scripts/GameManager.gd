@@ -4,7 +4,9 @@ extends Node
 @export var available_flowers: Array[StringName] = [
 	"rose",
 	"tulip",
-	# "lily",
+	"lily",
+	"iris",
+	"gerbera",
 ]
 
 @onready var flower_stand: Node2D = $'../FlowerStand'
