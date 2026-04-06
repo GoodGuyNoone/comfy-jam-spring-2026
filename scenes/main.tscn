@@ -24,6 +24,7 @@ flower_texture = ExtResource("2_vcsgt")
 
 [node name="Vase" type="Node2D" parent="." unique_id=936332133]
 script = ExtResource("3_c01mt")
+flower_scene = ExtResource("1_rarhs")
 
 [node name="Slots" type="Node2D" parent="Vase" unique_id=1041609149]
 
@@ -54,12 +55,19 @@ rotation = 0.08726646
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
 [node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
-offset_left = 46.0
-offset_top = 273.0
-offset_right = 123.0
-offset_bottom = 297.0
+offset_left = 35.0
+offset_top = 280.0
+offset_right = 112.0
+offset_bottom = 311.0
 text = "Submit
 "
+
+[node name="ClearVaseButton" type="Button" parent="UI" unique_id=985367551]
+offset_left = 125.0
+offset_top = 283.0
+offset_right = 213.0
+offset_bottom = 314.0
+text = "Clear vase"
 
 [node name="GameManager" type="Node2D" parent="." unique_id=483342966]
 script = ExtResource("4_nxtc6")

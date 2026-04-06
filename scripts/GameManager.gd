@@ -13,6 +13,7 @@ extends Node
 @onready var test_label: Label = $'../TestLabel'
 @onready var feedback_label: Label = $'../FeedbackLabel'
 @onready var submit_button: Button = $'../UI/SubmitButton'
+@onready var clear_vase_button: Button = $'../UI/ClearVaseButton'
 
 
 var is_animating: bool = false
@@ -24,6 +25,7 @@ func _ready() -> void:
 	start_round()
 	flower_stand.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
+	clear_vase_button.pressed.connect(_on_clear_vase_pressed)
 
 
 func start_round():
@@ -45,7 +47,7 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 
 	var flower_instance = flower_scene.instantiate()
 	moving_flowers.add_child(flower_instance)
-	flower_instance.setup(flower_id, flower_texture, false)
+	flower_instance.setup(flower_id, flower_texture, false, true)
 	flower_instance.global_position = start_global_position
 
 	var target_global_position: Vector2 = vase.get_next_slot_global_position()
@@ -61,7 +63,7 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 
 	await tween.finished
 
-	vase.finalize_flower(flower_instance, flower_id)
+	vase.finalize_flower(flower_instance, flower_id, flower_texture)
 	is_animating = false
 
 
@@ -79,6 +81,13 @@ func _on_submit_pressed() -> void:
 	else:
 		feedback_label.text = "Wrong"
 		start_round()
+
+
+func _on_clear_vase_pressed() -> void:
+	if is_animating:
+		return
+	
+	vase.clear_vase()
 
 
 func generate_order(count: int = 5) -> Array[StringName]:

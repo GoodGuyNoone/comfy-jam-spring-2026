@@ -10,11 +10,17 @@ script = ExtResource("1_sae6b")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=553002955]
 texture_filter = 1
-position = Vector2(0, -16)
-centered = false
-offset = Vector2(-10, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2016913469]
-position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_sae6b")
 debug_color = Color(0.72294366, 0.9428878, 0.9999997, 0.41960785)
+
+[node name="Outline" type="Node2D" parent="." unique_id=2055489280]
+
+[node name="O_Left" type="Sprite2D" parent="Outline" unique_id=1455228344]
+
+[node name="O_Right" type="Sprite2D" parent="Outline" unique_id=1775166272]
+
+[node name="O_Up" type="Sprite2D" parent="Outline" unique_id=1424010009]
+
+[node name="O_Down" type="Sprite2D" parent="Outline" unique_id=1939799130]
