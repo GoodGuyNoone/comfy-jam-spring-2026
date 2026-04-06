@@ -48,7 +48,7 @@ func _apply_visuals() -> void:
 
 
 func _on_mouse_entered() -> void:
-	# if can_be_removed:
+	if can_be_removed:
 		for child in outline.get_children():
 			child.visible = true
 
