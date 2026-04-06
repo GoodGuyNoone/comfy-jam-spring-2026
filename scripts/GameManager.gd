@@ -11,6 +11,7 @@ extends Node
 	"daisy",
 	"lavender",
 	"hibiscus",
+	"hibiscus",
 ]
 
 @onready var flower_stand: Node2D = $'../FlowerStand'
