@@ -7,15 +7,15 @@ extends Node
 	"lily",
 	"iris",
 	"gerbera",
-	"sunflower",
+	"cala lily",
+	"snapdragon",
 	"daisy",
-	"lavender",
-	"hibiscus",
-	"hibiscus",
+	"peony",
+	"ruscus",
 ]
 
 @onready var flower_stand: Node2D = $'../FlowerStand'
-@onready var vase = $'../Vase'
+@onready var vase = get_parent().get_node("Vase")
 @onready var moving_flowers = $'../MovingFlowers'
 @onready var test_label: Label = $'../TestLabel'
 @onready var feedback_label: Label = $'../FeedbackLabel'
@@ -25,14 +25,15 @@ extends Node
 
 var is_animating: bool = false
 var current_order: Array[StringName] = []
+# var target_rotation: float = vase.get_next_slot_rotation()
 
 
 func _ready() -> void:
 	randomize()
-	start_round()
 	flower_stand.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
 	clear_vase_button.pressed.connect(_on_clear_vase_pressed)
+	call_deferred("start_round")
 
 
 func start_round():
@@ -44,6 +45,7 @@ func start_round():
 
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2) -> void:
+	var target_rotation: float = vase.get_next_slot_rotation()
 	if is_animating:
 		return
 	
@@ -66,6 +68,7 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	tween.parallel().tween_property(flower_instance, "global_position", target_global_position, 0.25)
 	tween.parallel().tween_property(flower_instance, "rotation", deg_to_rad(randf_range(-4.0, 4.0)), 0.25)
 	tween.parallel().tween_property(flower_instance, "scale", Vector2(1.05, 1.05), 0.12)
+	tween.parallel().tween_property(flower_instance, "rotation_degrees", target_rotation, 0.25)
 	tween.tween_property(flower_instance, "scale", Vector2.ONE, 0.13)
 
 	await tween.finished

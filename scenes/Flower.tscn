@@ -3,19 +3,22 @@
 [ext_resource type="Script" uid="uid://yg5ngc3a7fg4" path="res://scripts/Flower.gd" id="1_sae6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sae6b"]
-size = Vector2(16, 32)
+size = Vector2(32, 64)
 
 [node name="Flower" type="Area2D" unique_id=1026794971]
 script = ExtResource("1_sae6b")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=553002955]
 texture_filter = 1
+offset = Vector2(0, -32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2016913469]
+position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_sae6b")
 debug_color = Color(0.72294366, 0.9428878, 0.9999997, 0.41960785)
 
 [node name="Outline" type="Node2D" parent="." unique_id=2055489280]
+position = Vector2(0, -32)
 
 [node name="O_Left" type="Sprite2D" parent="Outline" unique_id=1455228344]
 

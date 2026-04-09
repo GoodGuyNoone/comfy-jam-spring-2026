@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjhfooln4wl2o"
-path="res://.godot/imported/Tulip.png-3d3529a0af0cff334b3bff26e971b8a4.ctex"
+uid="uid://bxfjsmd5bl32"
+path="res://.godot/imported/lily.png-557b4c31f2effdd1a8b0ea8d6ba85e6f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/aseprite/flowers/Tulip.png"
-dest_files=["res://.godot/imported/Tulip.png-3d3529a0af0cff334b3bff26e971b8a4.ctex"]
+source_file="res://assets/aseprite/flowers/lily.png"
+dest_files=["res://.godot/imported/lily.png-557b4c31f2effdd1a8b0ea8d6ba85e6f.ctex"]
 
 [params]
 
