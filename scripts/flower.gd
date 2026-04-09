@@ -8,6 +8,7 @@ signal remove_requested(flower_id, flower_texture, flower_node)
 @export var can_be_removed: bool = false
 @export var flower_texture: Texture2D
 @export var outline_color: Color
+@export var is_filler: bool = false 
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var outline: Node2D = $Outline

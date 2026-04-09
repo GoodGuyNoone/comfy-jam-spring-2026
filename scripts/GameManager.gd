@@ -13,6 +13,8 @@ extends Node
 	"peony",
 	"ruscus",
 ]
+@export var min_order_size: int = 5
+@export var max_order_size: int = 9
 
 @onready var flower_stand: Node2D = $'../FlowerStand'
 @onready var vase = get_parent().get_node("Vase")
@@ -22,10 +24,8 @@ extends Node
 @onready var submit_button: Button = $'../UI/SubmitButton'
 @onready var clear_vase_button: Button = $'../UI/ClearVaseButton'
 
-
 var is_animating: bool = false
 var current_order: Array[StringName] = []
-# var target_rotation: float = vase.get_next_slot_rotation()
 
 
 func _ready() -> void:
@@ -37,7 +37,7 @@ func _ready() -> void:
 
 
 func start_round():
-	current_order = generate_order(5)
+	current_order = generate_order()
 	print("New order:", current_order)
 	vase.clear_vase()
 	update_receipt_ui()
@@ -45,7 +45,6 @@ func start_round():
 
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2) -> void:
-	var target_rotation: float = vase.get_next_slot_rotation()
 	if is_animating:
 		return
 	
@@ -60,15 +59,15 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	flower_instance.global_position = start_global_position
 
 	var target_global_position: Vector2 = vase.get_next_slot_global_position()
+	var target_rotation: float = vase.get_next_slot_rotation()
 
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_OUT)
 
 	tween.parallel().tween_property(flower_instance, "global_position", target_global_position, 0.25)
-	tween.parallel().tween_property(flower_instance, "rotation", deg_to_rad(randf_range(-4.0, 4.0)), 0.25)
-	tween.parallel().tween_property(flower_instance, "scale", Vector2(1.05, 1.05), 0.12)
 	tween.parallel().tween_property(flower_instance, "rotation_degrees", target_rotation, 0.25)
+	tween.parallel().tween_property(flower_instance, "scale", Vector2(1.05, 1.05), 0.12)
 	tween.tween_property(flower_instance, "scale", Vector2.ONE, 0.13)
 
 	await tween.finished
@@ -100,8 +99,11 @@ func _on_clear_vase_pressed() -> void:
 	vase.clear_vase()
 
 
-func generate_order(count: int = 5) -> Array[StringName]:
+func generate_order() -> Array[StringName]:
 	var order: Array[StringName] = []
+
+	var limit : int = min(max_order_size, vase.get_capacity())
+	var count := randi_range(min_order_size, limit)
 
 	for i in range(count):
 		var random_index = randi() % available_flowers.size()

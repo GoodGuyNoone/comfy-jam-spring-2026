@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c6m51ugl7vqsq"]
 
 [ext_resource type="Script" uid="uid://yg5ngc3a7fg4" path="res://scripts/Flower.gd" id="1_sae6b"]
+[ext_resource type="Texture2D" uid="uid://b3egom0un43bp" path="res://assets/aseprite/flowers/peony.png" id="2_sae6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sae6b"]
 size = Vector2(32, 64)
@@ -10,12 +11,12 @@ script = ExtResource("1_sae6b")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=553002955]
 texture_filter = 1
-offset = Vector2(0, -32)
+position = Vector2(0, -32)
+texture = ExtResource("2_sae6b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2016913469]
 position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_sae6b")
-debug_color = Color(0.72294366, 0.9428878, 0.9999997, 0.41960785)
 
 [node name="Outline" type="Node2D" parent="." unique_id=2055489280]
 position = Vector2(0, -32)
