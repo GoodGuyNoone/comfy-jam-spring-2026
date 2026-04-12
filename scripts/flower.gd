@@ -73,4 +73,21 @@ func _input_event(viewport, event, _shape_idx) -> void:
 		return
 
 	if can_be_removed:
+		if not can_remove_during_tutorial():
+			return
 		remove_requested.emit(flower_id, flower_texture, self)
+
+
+func can_remove_during_tutorial() -> bool:
+	var main := get_tree().current_scene
+	if main == null:
+		return true
+
+	var game_manager = main.get_node_or_null("GameManager")
+	if game_manager == null:
+		return true
+
+	if game_manager.has_method("tutorial_blocks_remove_flower"):
+		return not game_manager.tutorial_blocks_remove_flower()
+
+	return true

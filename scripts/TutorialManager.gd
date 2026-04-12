@@ -56,19 +56,36 @@ func _build_steps() -> void:
 			"highlight_target": "FlowerStand"
 		},
 		{
-			"id": "fill_mains",
+			"id": "complete_main_count",
 			"speaker": "Manager",
-			"text": "Good. Now place all required main flowers into the vase.",
+			"text": "Good. Place the required main flowers into the vase.",
 			"mode": "wait_action",
 			"action": "complete_main_count",
 			"highlight_target": "Vase"
 		},
 		{
-			"id": "fillers_info",
+			"id": "remove_one_flower",
 			"speaker": "Manager",
-			"text": "Now fillers are unlocked. Fillers support the bouquet and complete the customer order.",
-			"mode": "message",
-			"highlight_target": "FlowerStand"
+			"text": "If you make a mistake, click a flower in the vase to remove it.",
+			"mode": "wait_action",
+			"action": "remove_single_flower",
+			"highlight_target": "Vase"
+		},
+		{
+			"id": "clear_vase_info",
+			"speaker": "Manager",
+			"text": "You can also reset the whole bouquet with the Clear Vase button.",
+			"mode": "wait_action",
+			"action": "clear_vase",
+			"highlight_target": "UI/ClearButton"
+		},
+		{
+			"id": "rebuild_main_count",
+			"speaker": "Manager",
+			"text": "Now place the main flowers again.",
+			"mode": "wait_action",
+			"action": "complete_main_count",
+			"highlight_target": "Vase"
 		},
 		{
 			"id": "pick_fillers",
@@ -79,9 +96,9 @@ func _build_steps() -> void:
 			"highlight_target": "FlowerStand"
 		},
 		{
-			"id": "complete_fillers",
+			"id": "complete_filler_count",
 			"speaker": "Manager",
-			"text": "Good. Now place the remaining filler flowers.",
+			"text": "Place the required filler flowers.",
 			"mode": "wait_action",
 			"action": "complete_filler_count",
 			"highlight_target": "Vase"

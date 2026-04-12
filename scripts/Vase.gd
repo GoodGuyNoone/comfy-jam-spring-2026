@@ -1,6 +1,7 @@
 extends Node2D
 
 signal flower_removed(flower_id)
+signal single_flower_removed(flower_id)
 
 var current_flowers: Array = []
 var slots: Array[Marker2D] = []
@@ -153,6 +154,7 @@ func _on_flower_remove_requested(flower_id: StringName, _flower_texture: Texture
 	var slot_index: int = flower_node.get_meta("slot_index")
 	remove_flower_at(slot_index)
 	flower_removed.emit(flower_id)
+	single_flower_removed.emit(flower_id)
 
 
 func remove_flower_at(index: int) -> void:

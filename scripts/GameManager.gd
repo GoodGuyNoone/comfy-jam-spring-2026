@@ -31,6 +31,9 @@ func _ready() -> void:
 
 	if vase.has_signal("flower_removed"):
 		vase.flower_removed.connect(_on_vase_flower_removed)
+	
+	if vase.has_signal("single_flower_removed"):
+		vase.single_flower_removed.connect(_on_tutorial_single_flower_removed)
 
 	if tutorial_manager != null and tutorial_manager.has_signal("tutorial_finished"):
 		tutorial_manager.tutorial_finished.connect(_on_tutorial_finished)
@@ -102,6 +105,10 @@ func tutorial_blocks_pick(is_filler: bool) -> bool:
 			return not is_filler
 		"submit_bouquet":
 			return true
+		"remove_single_flower":
+			return true
+		"clear_vase":
+			return true
 		_:
 			return true
 
@@ -115,6 +122,28 @@ func tutorial_blocks_submit() -> bool:
 		return false
 
 	return step.get("action", "") != "submit_bouquet"
+
+
+func tutorial_blocks_clear() -> bool:
+	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
+		return false
+
+	var step: Dictionary = tutorial_manager.get_current_step()
+	if step.is_empty():
+		return true
+
+	return step.get("action", "") != "clear_vase"
+
+
+func tutorial_blocks_remove_flower() -> bool:
+	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
+		return false
+
+	var step: Dictionary = tutorial_manager.get_current_step()
+	if step.is_empty():
+		return true
+
+	return step.get("action", "") != "remove_single_flower"
 
 
 func collect_available_flowers_from_stand() -> void:
@@ -302,8 +331,14 @@ func _on_clear_pressed() -> void:
 	if is_animating:
 		return
 
+	if tutorial_blocks_clear():
+		return
+
 	vase.clear_vase()
 	feedback_label.text = ""
+
+	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
+		tutorial_manager.try_progress_action("clear_vase")
 
 	refresh_phase_state()
 	update_receipt_ui()
@@ -338,3 +373,8 @@ func is_filler_bouquet_correct() -> bool:
 
 func is_full_bouquet_correct() -> bool:
 	return is_main_bouquet_correct() and is_filler_bouquet_correct()
+
+
+func _on_tutorial_single_flower_removed(_flower_id: String) -> void:
+	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
+		tutorial_manager.try_progress_action("remove_single_flower")
