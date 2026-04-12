@@ -2,14 +2,15 @@ extends Node
 
 @export var flower_scene: PackedScene
 
-var bouquet_main_sizes: Array[int] = [3, 5, 7]
-var filler_count: int = 2
 var available_main_flowers: Array[StringName] = []
 var available_filler_flowers: Array[StringName] = []
+
 var current_main_order: Array[StringName] = []
 var current_filler_order: Array[StringName] = []
+
 var current_phase: String = "main"
 var is_animating: bool = false
+var order_index: int = 0
 
 @onready var flower_stand = get_parent().get_node("FlowerStand")
 @onready var vase = get_parent().get_node("Vase")
@@ -17,8 +18,8 @@ var is_animating: bool = false
 @onready var order_label: Label = get_parent().get_node("UI/OrderLabel")
 @onready var submit_button: Button = get_parent().get_node("UI/SubmitButton")
 @onready var clear_button: Button = get_parent().get_node("UI/ClearVaseButton")
-@onready var confirm_main_button: Button = get_parent().get_node("UI/ConfirmButton")
 @onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
+
 
 func _ready() -> void:
 	randomize()
@@ -26,27 +27,43 @@ func _ready() -> void:
 	flower_stand.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
 	clear_button.pressed.connect(_on_clear_pressed)
-	confirm_main_button.pressed.connect(_on_confirm_main_pressed)
+	
+	if vase.has_signal("flower_removed"):
+		vase.flower_removed.connect(_on_vase_flower_removed)
 
 	collect_available_flowers_from_stand()
 
 	call_deferred("start_round")
 
+
 func start_round() -> void:
+	order_index += 1
+	print("order: ", order_index)
+
 	current_phase = "main"
 	vase.set_phase("main")
 	vase.clear_vase()
 
-	var main_count := bouquet_main_sizes[randi() % bouquet_main_sizes.size()]
+	var main_count : int
+	var filler_count : int
 
+	if order_index <= 2:
+		main_count = 3
+		filler_count = 2
+	elif order_index <= 5:
+		main_count = 5
+		filler_count = 2
+	else:
+		main_count = 7
+		filler_count = 3
+	
 	current_main_order = generate_order(available_main_flowers, main_count)
 	current_filler_order = generate_order(available_filler_flowers, filler_count)
 
-	update_receipt_ui()
 	feedback_label.text = ""
-
-	confirm_main_button.visible = true
-	submit_button.visible = false
+	refresh_phase_state()
+	update_receipt_ui()
+	update_submit_state()
 
 
 func collect_available_flowers_from_stand() -> void:
@@ -74,34 +91,79 @@ func generate_order(pool: Array[StringName], count: int) -> Array[StringName]:
 
 	return order
 
+
+func get_required_main_count() -> int:
+	return current_main_order.size()
+
+
+func get_required_filler_count() -> int:
+	return current_filler_order.size()
+
+
+func get_current_main_count() -> int:
+	return vase.get_flowers_for_phase("main").size()
+
+
+func get_current_filler_count() -> int:
+	return vase.get_flowers_for_phase("filler").size()
+
+
+func are_main_slots_filled() -> bool:
+	return get_current_main_count() >= get_required_main_count()
+
+
+func is_full_bouquet_built() -> bool:
+	return get_current_main_count() >= get_required_main_count() and get_current_filler_count() >= get_required_filler_count()
+
+
+func refresh_phase_state() -> void:
+	if are_main_slots_filled():
+		current_phase = "filler"
+	else:
+		current_phase = "main"
+
+	vase.set_phase(current_phase)
+
+
+func update_submit_state() -> void:
+	submit_button.disabled = not is_full_bouquet_built()
+
+
 func update_receipt_ui() -> void:
 	var text := ""
 
-	text += "Main: "
+	text += "Main (%d/%d): " % [get_current_main_count(), get_required_main_count()]
 	for flower in current_main_order:
 		text += flower + " "
 
 	text += "\n"
 
 	if current_phase == "main":
-		text += "Fillers: [locked]"
+		text += "Fillers (locked"
+		if get_current_filler_count() > 0:
+			text += ", placed: %d/%d" % [get_current_filler_count(), get_required_filler_count()]
+		text += "): "
 	else:
-		text += "Fillers: "
-		for flower in current_filler_order:
-			text += flower + " "
+		text += "Fillers (%d/%d): " % [get_current_filler_count(), get_required_filler_count()]
+
+	for flower in current_filler_order:
+		text += flower + " "
 
 	order_label.text = text
+
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2, is_filler: bool) -> void:
 	if is_animating:
 		return
+
+	refresh_phase_state()
 
 	if current_phase == "main" and is_filler:
 		feedback_label.text = "Place main flowers first"
 		return
 
 	if current_phase == "filler" and not is_filler:
-		feedback_label.text = "Main flowers are locked"
+		feedback_label.text = "Main flowers already filled"
 		return
 
 	if not vase.has_free_slot_for_phase(current_phase):
@@ -133,28 +195,25 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	vase.finalize_flower_for_phase(flower_instance, flower_id, flower_texture, is_filler, current_phase)
 	is_animating = false
 
-func _on_confirm_main_pressed() -> void:
-	if is_animating:
-		return
-
-	if not is_main_bouquet_correct():
-		feedback_label.text = "Main flowers do not match the order"
-		return
-
-	current_phase = "filler"
-	vase.set_phase("filler")
+	refresh_phase_state()
 	update_receipt_ui()
+	update_submit_state()
 
-	feedback_label.text = "Main flowers locked. Add fillers."
-	confirm_main_button.visible = false
-	submit_button.visible = true
+
+func _on_vase_flower_removed(_flower_id: String) -> void:
+	refresh_phase_state()
+	update_receipt_ui()
+	update_submit_state()
+
 
 func _on_submit_pressed() -> void:
 	if is_animating:
 		return
 
-	if current_phase != "filler":
-		feedback_label.text = "Confirm main flowers first"
+	refresh_phase_state()
+
+	if not is_full_bouquet_built():
+		feedback_label.text = "Bouquet is not complete yet"
 		return
 
 	if is_full_bouquet_correct():
@@ -163,11 +222,18 @@ func _on_submit_pressed() -> void:
 	else:
 		feedback_label.text = "Wrong"
 
+
 func _on_clear_pressed() -> void:
 	if is_animating:
 		return
 
-	start_round()
+	vase.clear_vase()
+	feedback_label.text = ""
+
+	refresh_phase_state()
+	update_receipt_ui()
+	update_submit_state()
+
 
 func get_flower_counts(flowers: Array[StringName]) -> Dictionary:
 	var counts := {}
