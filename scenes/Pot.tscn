@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c1hui8xg6354w"]
+
+[ext_resource type="Texture2D" uid="uid://lpfw1bbalaaw" path="res://assets/aseprite/flowers/PeonyPot.png" id="1_ynmsd"]
+[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/aseprite/flowers/peony.png" id="2_gpnl5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ynmsd"]
+size = Vector2(56, 70)
+
+[node name="Pot" type="Area2D" unique_id=595967631]
+
+[node name="PotSprite" type="Sprite2D" parent="." unique_id=788081919]
+position = Vector2(0, -35)
+texture = ExtResource("1_ynmsd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1620834466]
+position = Vector2(0, -35)
+shape = SubResource("RectangleShape2D_ynmsd")
+
+[node name="FlowerPreview" type="Sprite2D" parent="." unique_id=523539645]
+position = Vector2(0, -32)
+texture = ExtResource("2_gpnl5")

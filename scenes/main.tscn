@@ -13,7 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://ccje40olbyfa8" path="res://assets/aseprite/flowers/gerbera.png" id="11_1nqs0"]
 [ext_resource type="Texture2D" uid="uid://bdjtt1e16l67k" path="res://assets/aseprite/flowers/eucalyptus.png" id="12_1iba3"]
 [ext_resource type="Texture2D" uid="uid://ywh5op5ibm2e" path="res://assets/aseprite/flowers/ArrowDown.png" id="12_3p2gp"]
+[ext_resource type="PackedScene" uid="uid://c1hui8xg6354w" path="res://scenes/Pot.tscn" id="12_bb450"]
 [ext_resource type="Texture2D" uid="uid://cfp44libdq1ip" path="res://assets/Tutorial/ManagerPortrait.png" id="12_cvmbd"]
+[ext_resource type="Script" uid="uid://4hmqo7kouca2" path="res://scripts/Pot.gd" id="13_nfivy"]
 [ext_resource type="Script" uid="uid://dfi6b77vswnu3" path="res://scripts/TutorialManager.gd" id="14_mwfav"]
 [ext_resource type="PackedScene" uid="uid://qkqlx0byjsdb" path="res://scenes/Vase.tscn" id="15_cvmbd"]
 
@@ -68,6 +70,12 @@ flower_texture = ExtResource("10_nfivy")
 position = Vector2(211, 54)
 flower_id = "gerbera"
 flower_texture = ExtResource("11_1nqs0")
+
+[node name="Pot" parent="FlowerStand" unique_id=595967631 instance=ExtResource("12_bb450")]
+position = Vector2(240, 148)
+script = ExtResource("13_nfivy")
+flower_id = "peony"
+flower_texture = ExtResource("10_nfivy")
 
 [node name="Customer" type="Node2D" parent="." unique_id=1114677330]
 
@@ -175,4 +183,6 @@ flower_scene = ExtResource("1_rarhs")
 position = Vector2(406, 126)
 
 [node name="TutorialManager" type="Node2D" parent="." unique_id=1748724015]
+position = Vector2(0, 2)
 script = ExtResource("14_mwfav")
+start_with_tutorial = false

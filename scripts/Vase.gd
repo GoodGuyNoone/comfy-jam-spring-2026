@@ -7,10 +7,7 @@ var current_flowers: Array = []
 var slots: Array[Marker2D] = []
 var current_phase = "main"
 var current_layout_size: int = 10
-
-# var slot_rotations = [-15.0, 15.0, -30.0, 0.0, 30.0, -17.0, 17.0, -15.0, 15.0, 0]
-# var slot_z_indexes = [1, 1, 2, 2, 2, 3, 3, 0, 0, 0]
-
+var selected_flower_for_removal: Area2D = null
 
 @onready var flowers_container: Node2D = $FlowersContainer
 @onready var layouts: Node2D = $Layouts
@@ -40,7 +37,6 @@ func _collect_slots_for_layout(layout_size: int) -> void:
 	for child in layout_node.get_children():
 		if child is BouquetSlot:
 			slots.append(child)
-
 
 
 func set_phase(phase: StringName) -> void:
@@ -83,7 +79,38 @@ func get_next_slot_rotation_for_phase(phase: StringName) -> float:
 	if index == -1:
 		return 0.0
 	return slots[index].slot_rotation
-		
+
+
+func _set_selected_flower_for_removal(flower_node: Area2D) -> void:
+	if selected_flower_for_removal == flower_node:
+		return
+
+	if is_instance_valid(selected_flower_for_removal):
+		selected_flower_for_removal.set_selected_for_removal(false)
+
+	selected_flower_for_removal = flower_node
+
+	if is_instance_valid(selected_flower_for_removal):
+		selected_flower_for_removal.set_selected_for_removal(true)
+
+
+func _clear_selected_flower_for_removal(flower_node: Area2D) -> void:
+	if selected_flower_for_removal != flower_node:
+		return
+
+	if is_instance_valid(selected_flower_for_removal):
+		selected_flower_for_removal.set_selected_for_removal(false)
+
+	selected_flower_for_removal = null
+
+
+func _on_vase_flower_hover_entered(flower_node: Area2D) -> void:
+	_set_selected_flower_for_removal(flower_node)
+
+
+func _on_vase_flower_hover_exited(flower_node: Area2D) -> void:
+	_clear_selected_flower_for_removal(flower_node)
+
 
 func finalize_flower_for_phase(flower_instance: Area2D, flower_id: StringName, flower_texture: Texture2D, is_filler: bool, phase: StringName) -> void:
 	var index := get_next_free_slot_index_for_phase(phase)
@@ -112,6 +139,14 @@ func finalize_flower_for_phase(flower_instance: Area2D, flower_id: StringName, f
 	if not flower_instance.remove_requested.is_connected(_on_flower_remove_requested):
 		flower_instance.remove_requested.connect(_on_flower_remove_requested)
 
+	if not flower_instance.vase_hover_entered.is_connected(_on_vase_flower_hover_entered):
+		flower_instance.vase_hover_entered.connect(_on_vase_flower_hover_entered)
+
+	if not flower_instance.vase_hover_exited.is_connected(_on_vase_flower_hover_exited):
+		flower_instance.vase_hover_exited.connect(_on_vase_flower_hover_exited)
+
+	flower_instance.set_selected_for_removal(false)
+
 	current_flowers[index] = {
 		"id": flower_id,
 		"texture": flower_texture,
@@ -121,6 +156,7 @@ func finalize_flower_for_phase(flower_instance: Area2D, flower_id: StringName, f
 		"phase": phase
 	}
 
+
 func clear_vase() -> void:
 	if flowers_container == null:
 		push_error("clear_vase: flowers_container is null")
@@ -128,6 +164,11 @@ func clear_vase() -> void:
 
 	for child in flowers_container.get_children():
 		child.queue_free()
+	
+	if is_instance_valid(selected_flower_for_removal):
+		selected_flower_for_removal.set_selected_for_removal(false)
+
+	selected_flower_for_removal = null
 
 	current_flowers.resize(slots.size())
 
@@ -166,6 +207,9 @@ func remove_flower_at(index: int) -> void:
 		return
 
 	var flower_node: Node = flower_data["node"]
+
+	if flower_node == selected_flower_for_removal:
+		_clear_selected_flower_for_removal(flower_node)
 
 	if is_instance_valid(flower_node):
 		flower_node.queue_free()

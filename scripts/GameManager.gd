@@ -54,15 +54,15 @@ func start_round() -> void:
 	var main_count : int
 	var filler_count : int
 
-	if order_index <= 2:
-		main_count = 3
-		filler_count = 2
-	elif order_index <= 5:
-		main_count = 5
-		filler_count = 2
-	else:
-		main_count = 7
-		filler_count = 3
+	# if order_index <= 2:
+	# 	main_count = 3
+	# 	filler_count = 2
+	# elif order_index <= 5:
+	# 	main_count = 5
+	# 	filler_count = 2
+	# else:
+	main_count = 7
+	filler_count = 3
 	
 	current_main_order = generate_order(available_main_flowers, main_count)
 	current_filler_order = generate_order(available_filler_flowers, filler_count)
@@ -260,18 +260,26 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	moving_flowers.add_child(flower_instance)
 	flower_instance.setup(flower_id, flower_texture, false, false, is_filler)
 	flower_instance.global_position = start_global_position
+	flower_instance.scale = Vector2(0.9, 0.9)
 
 	var target_global_position: Vector2 = vase.get_next_slot_global_position_for_phase(current_phase)
 	var target_rotation: float = vase.get_next_slot_rotation_for_phase(current_phase)
+
+	var hover_position := start_global_position + Vector2(0, -24)
 
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_OUT)
 
-	tween.parallel().tween_property(flower_instance, "global_position", target_global_position, 0.25)
-	tween.parallel().tween_property(flower_instance, "rotation_degrees", target_rotation, 0.25)
-	tween.parallel().tween_property(flower_instance, "scale", Vector2(1.05, 1.05), 0.12)
-	tween.tween_property(flower_instance, "scale", Vector2.ONE, 0.13)
+	tween.tween_property(flower_instance, "global_position", hover_position, 0.14)
+	tween.parallel().tween_property(flower_instance, "scale", Vector2(1.05, 1.05), 0.14)
+	tween.parallel().tween_property(flower_instance, "rotation_degrees", 0.0, 0.14)
+
+	tween.tween_interval(0.04)
+
+	tween.tween_property(flower_instance, "global_position", target_global_position, 0.24)
+	tween.parallel().tween_property(flower_instance, "scale", Vector2.ONE, 0.24)
+	tween.parallel().tween_property(flower_instance, "rotation_degrees", target_rotation, 0.24)
 
 	await tween.finished
 

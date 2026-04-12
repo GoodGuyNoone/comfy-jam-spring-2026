@@ -2,6 +2,8 @@ extends Area2D
 
 signal picked(flower_id, flower_texture, start_global_position, is_filler)
 signal remove_requested(flower_id, flower_texture, flower_node)
+signal vase_hover_entered(flower_node)
+signal vase_hover_exited(flower_node)
 
 @export var flower_id: String = ""
 @export var can_be_picked: bool = true
@@ -12,6 +14,8 @@ signal remove_requested(flower_id, flower_texture, flower_node)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var outline: Node2D = $Outline
+
+var is_selected_for_removal: bool = false
 
 
 func _ready() -> void:
@@ -39,25 +43,46 @@ func setup(id: String, tex: Texture2D, pickable: bool, removable: bool, filler: 
 
 
 func _apply_visuals() -> void:
-	sprite.texture = flower_texture
+	if has_node("Sprite2D"):
+		$Sprite2D.texture = flower_texture
+		$Sprite2D.z_as_relative = true
+		$Sprite2D.z_index = 0
 	
-	for child in outline.get_children():
-		child.texture = flower_texture
-		child.modulate = outline_color
-		child.visible = false
-		child.z_index = -1
+	if has_node("Outline"):
+		var outline_root: Node2D = $Outline
+		outline_root.z_as_relative = true
+		outline_root.z_index = -1
+
+		for child in outline_root.get_children():
+			if child is Sprite2D:
+				child.texture = flower_texture
+				child.visible = false
+				child.modulate = outline_color
+				child.z_as_relative = true
+				child.z_index = 0
 
 
 func _on_mouse_entered() -> void:
 	if can_be_removed:
-		for child in outline.get_children():
-			child.visible = true
+		vase_hover_entered.emit(self)
 
 
 func _on_mouse_exited() -> void:
-	for child in outline.get_children():
-		child.visible = false
+	if can_be_removed:
+		vase_hover_exited.emit(self)
 
+
+func set_selected_for_removal(value: bool) -> void:
+	is_selected_for_removal = value
+
+	if has_node("Outline"):
+		var outline_root: Node2D = $Outline
+		outline_root.z_as_relative = true
+		outline_root.z_index = -1
+
+		for child in outline_root.get_children():
+			if child is Sprite2D:
+				child.visible = value
 
 func _input_event(viewport, event, _shape_idx) -> void:
 	if viewport.is_input_handled():
@@ -65,16 +90,20 @@ func _input_event(viewport, event, _shape_idx) -> void:
 
 	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		return
-	
-	viewport.set_input_as_handled()
 
 	if can_be_picked:
+		viewport.set_input_as_handled()
 		picked.emit(flower_id, flower_texture, global_position, is_filler)
 		return
 
 	if can_be_removed:
+		if not is_selected_for_removal:
+			return
+
 		if not can_remove_during_tutorial():
 			return
+
+		viewport.set_input_as_handled()
 		remove_requested.emit(flower_id, flower_texture, self)
 
 
