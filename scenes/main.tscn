@@ -107,4 +107,4 @@ flower_scene = ExtResource("1_rarhs")
 [node name="MovingFlowers" type="Node2D" parent="." unique_id=1842306925]
 
 [node name="Vase" parent="." unique_id=1972029331 instance=ExtResource("15_cvmbd")]
-position = Vector2(108, 256)
+position = Vector2(406, 126)

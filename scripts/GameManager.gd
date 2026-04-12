@@ -32,12 +32,11 @@ func _ready() -> void:
 		vase.flower_removed.connect(_on_vase_flower_removed)
 
 	collect_available_flowers_from_stand()
-
+	order_index += 1
 	call_deferred("start_round")
 
 
 func start_round() -> void:
-	order_index += 1
 	print("order: ", order_index)
 
 	current_phase = "main"
@@ -47,18 +46,22 @@ func start_round() -> void:
 	var main_count : int
 	var filler_count : int
 
-	if order_index <= 2:
-		main_count = 3
-		filler_count = 2
-	elif order_index <= 5:
-		main_count = 5
-		filler_count = 2
-	else:
-		main_count = 7
-		filler_count = 3
+	# if order_index <= 2:
+	# 	main_count = 3
+	# 	filler_count = 2
+	# elif order_index <= 5:
+	# 	main_count = 5
+	# 	filler_count = 2
+	# else:
+	main_count = 7
+	filler_count = 3
 	
 	current_main_order = generate_order(available_main_flowers, main_count)
 	current_filler_order = generate_order(available_filler_flowers, filler_count)
+
+	var layout_size := main_count + filler_count
+	print("layout set to:" + str(layout_size))
+	vase.set_layout_size(layout_size)
 
 	feedback_label.text = ""
 	refresh_phase_state()
@@ -218,9 +221,11 @@ func _on_submit_pressed() -> void:
 
 	if is_full_bouquet_correct():
 		feedback_label.text = "Correct"
+		order_index += 1
 		start_round()
 	else:
 		feedback_label.text = "Wrong"
+		start_round()
 
 
 func _on_clear_pressed() -> void:
