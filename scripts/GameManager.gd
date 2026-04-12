@@ -19,6 +19,7 @@ var order_index: int = 0
 @onready var submit_button: Button = get_parent().get_node("UI/SubmitButton")
 @onready var clear_button: Button = get_parent().get_node("UI/ClearVaseButton")
 @onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
+@onready var tutorial_manager: Node2D = $'../TutorialManager'
 
 
 func _ready() -> void:
@@ -27,12 +28,16 @@ func _ready() -> void:
 	flower_stand.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
 	clear_button.pressed.connect(_on_clear_pressed)
-	
+
 	if vase.has_signal("flower_removed"):
 		vase.flower_removed.connect(_on_vase_flower_removed)
 
+	if tutorial_manager != null and tutorial_manager.has_signal("tutorial_finished"):
+		tutorial_manager.tutorial_finished.connect(_on_tutorial_finished)
+
 	collect_available_flowers_from_stand()
-	order_index += 1
+
+	order_index = 1
 	call_deferred("start_round")
 
 
@@ -46,15 +51,15 @@ func start_round() -> void:
 	var main_count : int
 	var filler_count : int
 
-	# if order_index <= 2:
-	# 	main_count = 3
-	# 	filler_count = 2
-	# elif order_index <= 5:
-	# 	main_count = 5
-	# 	filler_count = 2
-	# else:
-	main_count = 7
-	filler_count = 3
+	if order_index <= 2:
+		main_count = 3
+		filler_count = 2
+	elif order_index <= 5:
+		main_count = 5
+		filler_count = 2
+	else:
+		main_count = 7
+		filler_count = 3
 	
 	current_main_order = generate_order(available_main_flowers, main_count)
 	current_filler_order = generate_order(available_filler_flowers, filler_count)
@@ -67,6 +72,49 @@ func start_round() -> void:
 	refresh_phase_state()
 	update_receipt_ui()
 	update_submit_state()
+
+
+func _on_tutorial_finished() -> void:
+	feedback_label.text = ""
+	refresh_phase_state()
+	update_receipt_ui()
+	update_submit_state()
+
+
+func tutorial_blocks_pick(is_filler: bool) -> bool:
+	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
+		return false
+	
+	var step: Dictionary = tutorial_manager.get_current_step()
+	if step.is_empty():
+		return true
+	
+	var action: String = step.get("action", "")
+
+	match action:
+		"pick_main":
+			return is_filler
+		"complete_main_count":
+			return is_filler
+		"pick_filler":
+			return not is_filler
+		"complete_filler_count":
+			return not is_filler
+		"submit_bouquet":
+			return true
+		_:
+			return true
+
+
+func tutorial_blocks_submit() -> bool:
+	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
+		return false
+
+	var step: Dictionary = tutorial_manager.get_current_step()
+	if step.is_empty():
+		return false
+
+	return step.get("action", "") != "submit_bouquet"
 
 
 func collect_available_flowers_from_stand() -> void:
@@ -159,6 +207,9 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	if is_animating:
 		return
 
+	if tutorial_blocks_pick(is_filler):
+		return
+
 	refresh_phase_state()
 
 	if current_phase == "main" and is_filler:
@@ -202,6 +253,19 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	update_receipt_ui()
 	update_submit_state()
 
+	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
+		if not is_filler:
+			tutorial_manager.try_progress_action("pick_main")
+
+	if is_filler:
+		tutorial_manager.try_progress_action("pick_filler")
+
+	if get_current_main_count() >= get_required_main_count():
+		tutorial_manager.try_progress_action("complete_main_count")
+
+	if get_current_filler_count() >= get_required_filler_count():
+		tutorial_manager.try_progress_action("complete_filler_count")
+
 
 func _on_vase_flower_removed(_flower_id: String) -> void:
 	refresh_phase_state()
@@ -210,6 +274,9 @@ func _on_vase_flower_removed(_flower_id: String) -> void:
 
 
 func _on_submit_pressed() -> void:
+	if tutorial_blocks_submit():
+		return
+
 	if is_animating:
 		return
 
@@ -221,7 +288,10 @@ func _on_submit_pressed() -> void:
 
 	if is_full_bouquet_correct():
 		feedback_label.text = "Correct"
-		order_index += 1
+
+		if tutorial_manager != null and tutorial_manager.is_tutorial_active():
+			tutorial_manager.try_progress_action("submit_bouquet")
+
 		start_round()
 	else:
 		feedback_label.text = "Wrong"

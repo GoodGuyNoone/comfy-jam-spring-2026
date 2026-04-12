@@ -12,6 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/aseprite/flowers/peony.png" id="10_nfivy"]
 [ext_resource type="Texture2D" uid="uid://ccje40olbyfa8" path="res://assets/aseprite/flowers/gerbera.png" id="11_1nqs0"]
 [ext_resource type="Texture2D" uid="uid://bdjtt1e16l67k" path="res://assets/aseprite/flowers/eucalyptus.png" id="12_1iba3"]
+[ext_resource type="Texture2D" uid="uid://ywh5op5ibm2e" path="res://assets/aseprite/flowers/ArrowDown.png" id="12_3p2gp"]
+[ext_resource type="Texture2D" uid="uid://cfp44libdq1ip" path="res://assets/Tutorial/ManagerPortrait.png" id="12_cvmbd"]
+[ext_resource type="Script" uid="uid://dfi6b77vswnu3" path="res://scripts/TutorialManager.gd" id="14_mwfav"]
 [ext_resource type="PackedScene" uid="uid://qkqlx0byjsdb" path="res://scenes/Vase.tscn" id="15_cvmbd"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
@@ -72,26 +75,88 @@ flower_texture = ExtResource("11_1nqs0")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
+[node name="TutorialLayer" type="Control" parent="UI" unique_id=128188464]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MessagePanel" type="Panel" parent="UI/TutorialLayer" unique_id=1051049300]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -100.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SpeakerLabel" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=651456540]
+layout_mode = 0
+offset_left = 523.0
+offset_top = 8.0
+offset_right = 592.0
+offset_bottom = 57.0
+text = "Manager
+"
+
+[node name="MessageLabel" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=662006375]
+layout_mode = 0
+offset_right = 639.0
+offset_bottom = 97.0
+autowrap_mode = 3
+
+[node name="NextArrow" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=2129105029]
+layout_mode = 0
+offset_left = 593.0
+offset_top = 70.0
+offset_right = 633.0
+offset_bottom = 93.0
+mouse_filter = 0
+text = ">>"
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/TutorialLayer/MessagePanel" unique_id=331788968]
+position = Vector2(551, 61)
+texture = ExtResource("12_cvmbd")
+
+[node name="HighlightReact" type="ColorRect" parent="UI/TutorialLayer" unique_id=1481109106]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(1, 1, 0, 0.18)
+
+[node name="PointerArrow" type="Sprite2D" parent="UI/TutorialLayer" unique_id=646377667]
+visible = false
+texture = ExtResource("12_3p2gp")
+
 [node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
-offset_left = 33.0
-offset_top = 306.0
-offset_right = 110.0
-offset_bottom = 337.0
+offset_left = 38.0
+offset_top = 217.0
+offset_right = 115.0
+offset_bottom = 248.0
 text = "Submit
 "
 
 [node name="ClearVaseButton" type="Button" parent="UI" unique_id=985367551]
-offset_left = 126.0
-offset_top = 306.0
-offset_right = 214.0
-offset_bottom = 337.0
+offset_left = 137.0
+offset_top = 218.0
+offset_right = 225.0
+offset_bottom = 249.0
 text = "Clear vase"
 
 [node name="OrderLabel" type="Label" parent="UI" unique_id=1315127865]
-offset_left = 180.0
-offset_top = 237.0
-offset_right = 220.0
-offset_bottom = 260.0
+offset_left = 449.0
+offset_top = 17.0
+offset_right = 564.0
+offset_bottom = 127.0
+autowrap_mode = 3
 
 [node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
 offset_left = 192.0
@@ -108,3 +173,6 @@ flower_scene = ExtResource("1_rarhs")
 
 [node name="Vase" parent="." unique_id=1972029331 instance=ExtResource("15_cvmbd")]
 position = Vector2(406, 126)
+
+[node name="TutorialManager" type="Node2D" parent="." unique_id=1748724015]
+script = ExtResource("14_mwfav")
