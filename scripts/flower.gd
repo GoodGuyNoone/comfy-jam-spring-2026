@@ -1,6 +1,6 @@
 extends Area2D
 
-signal picked(flower_id, flower_texture, start_global_position)
+signal picked(flower_id, flower_texture, start_global_position, is_filler)
 signal remove_requested(flower_id, flower_texture, flower_node)
 
 @export var flower_id: String = ""
@@ -8,7 +8,7 @@ signal remove_requested(flower_id, flower_texture, flower_node)
 @export var can_be_removed: bool = false
 @export var flower_texture: Texture2D
 @export var outline_color: Color
-@export var is_filler: bool = false 
+@export var is_filler: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var outline: Node2D = $Outline
@@ -25,12 +25,12 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 
-func setup(id: String, tex: Texture2D, pickable: bool, removable: bool) -> void:
+func setup(id: String, tex: Texture2D, pickable: bool, removable: bool, filler: bool = false) -> void:
 	flower_id = id
 	flower_texture = tex
 	can_be_picked = pickable
 	can_be_removed = removable
-	sprite.texture = flower_texture
+	is_filler = filler
 
 	if is_inside_tree():
 		_apply_visuals()
@@ -60,13 +60,17 @@ func _on_mouse_exited() -> void:
 
 
 func _input_event(viewport, event, _shape_idx) -> void:
+	if viewport.is_input_handled():
+		return
+
 	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 	
 	viewport.set_input_as_handled()
 
 	if can_be_picked:
-		picked.emit(flower_id, flower_texture, global_position)
-	
+		picked.emit(flower_id, flower_texture, global_position, is_filler)
+		return
+
 	if can_be_removed:
 		remove_requested.emit(flower_id, flower_texture, self)

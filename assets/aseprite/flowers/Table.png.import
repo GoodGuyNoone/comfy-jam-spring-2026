@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgkk3k35hl2a7"
-path="res://.godot/imported/snapdragon .png-d3fa028f9dd8e7e33d7661f3d8e9b2fe.ctex"
+uid="uid://drftetnqqaox1"
+path="res://.godot/imported/Table.png-735017efe4ff00fb1ffbbeb2ae4b0fa3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/aseprite/flowers/snapdragon .png"
-dest_files=["res://.godot/imported/snapdragon .png-d3fa028f9dd8e7e33d7661f3d8e9b2fe.ctex"]
+source_file="res://assets/aseprite/flowers/Table.png"
+dest_files=["res://.godot/imported/Table.png-735017efe4ff00fb1ffbbeb2ae4b0fa3.ctex"]
 
 [params]
 

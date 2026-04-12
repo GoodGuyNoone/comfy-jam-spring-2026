@@ -9,32 +9,39 @@ script = ExtResource("1_mfl1g")
 
 [node name="Slots" type="Node2D" parent="." unique_id=1181260707]
 
-[node name="Slot_01" type="Marker2D" parent="Slots" unique_id=101693402]
-position = Vector2(0, -28)
+[node name="MainSlots" type="Node2D" parent="Slots" unique_id=1242141372]
 
-[node name="Slot_02" type="Marker2D" parent="Slots" unique_id=1862196059]
-position = Vector2(-14, -18)
+[node name="Slot_01" type="Marker2D" parent="Slots/MainSlots" unique_id=101693402]
+position = Vector2(0, -5)
 
-[node name="Slot_03" type="Marker2D" parent="Slots" unique_id=2096976565]
-position = Vector2(14, -18)
+[node name="Slot_02" type="Marker2D" parent="Slots/MainSlots" unique_id=1862196059]
+position = Vector2(0, -5)
 
-[node name="Slot_04" type="Marker2D" parent="Slots" unique_id=1229439542]
-position = Vector2(-17, -4)
+[node name="Slot_03" type="Marker2D" parent="Slots/MainSlots" unique_id=2096976565]
+position = Vector2(0, 5)
 
-[node name="Slot_05" type="Marker2D" parent="Slots" unique_id=659961935]
-position = Vector2(0, -9)
+[node name="Slot_04" type="Marker2D" parent="Slots/MainSlots" unique_id=1229439542]
+position = Vector2(0, 8)
 
-[node name="Slot_06" type="Marker2D" parent="Slots" unique_id=2021415583]
-position = Vector2(16, -4)
+[node name="Slot_05" type="Marker2D" parent="Slots/MainSlots" unique_id=659961935]
+position = Vector2(0, 5)
 
-[node name="Slot_07" type="Marker2D" parent="Slots" unique_id=207594784]
-position = Vector2(-7, 4)
+[node name="Slot_06" type="Marker2D" parent="Slots/MainSlots" unique_id=2021415583]
+position = Vector2(0, 18)
 
-[node name="Slot_08" type="Marker2D" parent="Slots" unique_id=340956638]
-position = Vector2(7, 4)
+[node name="Slot_07" type="Marker2D" parent="Slots/MainSlots" unique_id=207594784]
+position = Vector2(0, 18)
 
-[node name="Slot_09" type="Marker2D" parent="Slots" unique_id=1139548768]
-position = Vector2(0, 10)
+[node name="FillerSlots" type="Node2D" parent="Slots" unique_id=1755354108]
+
+[node name="Slot_08" type="Marker2D" parent="Slots/FillerSlots" unique_id=340956638]
+position = Vector2(-15, -19)
+
+[node name="Slot_09" type="Marker2D" parent="Slots/FillerSlots" unique_id=1139548768]
+position = Vector2(15, -19)
+
+[node name="Slot_10" type="Marker2D" parent="Slots/FillerSlots" unique_id=1706602140]
+position = Vector2(0, -22)
 
 [node name="VaseFront" type="Sprite2D" parent="." unique_id=112026993]
 

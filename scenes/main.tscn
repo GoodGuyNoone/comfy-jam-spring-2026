@@ -2,18 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://c6m51ugl7vqsq" path="res://scenes/Flower.tscn" id="1_rarhs"]
 [ext_resource type="Script" uid="uid://ce38d8wtub6wv" path="res://scripts/FlowerStand.gd" id="1_vcsgt"]
-[ext_resource type="Texture2D" uid="uid://s3dgee5vtutx" path="res://assets/aseprite/flowers/Rose.png" id="2_vcsgt"]
-[ext_resource type="Texture2D" uid="uid://cjhfooln4wl2o" path="res://assets/aseprite/flowers/Tulip.png" id="3_nxtc6"]
+[ext_resource type="Texture2D" uid="uid://bktfn8schhgba" path="res://assets/aseprite/flowers/Rose.png" id="2_vcsgt"]
 [ext_resource type="Script" uid="uid://cfy5a3qojw0rf" path="res://scripts/GameManager.gd" id="4_nxtc6"]
-[ext_resource type="Texture2D" uid="uid://reduobw3jsg3" path="res://assets/aseprite/flowers/iris.png" id="5_mwfav"]
-[ext_resource type="Texture2D" uid="uid://c0j8gmiqanxtw" path="res://assets/aseprite/flowers/calla lily.png" id="6_3p2gp"]
-[ext_resource type="Texture2D" uid="uid://bs0dubgtmhh3i" path="res://assets/aseprite/flowers/daisy.png" id="7_cvmbd"]
-[ext_resource type="Texture2D" uid="uid://bxfjsmd5bl32" path="res://assets/aseprite/flowers/lily.png" id="8_ft6cd"]
-[ext_resource type="Texture2D" uid="uid://b1gq7i1qlm2el" path="res://assets/aseprite/flowers/ruscus.png" id="9_bb450"]
-[ext_resource type="Texture2D" uid="uid://b3egom0un43bp" path="res://assets/aseprite/flowers/peony.png" id="10_nfivy"]
-[ext_resource type="Texture2D" uid="uid://cyukjoj7sgfst" path="res://assets/aseprite/flowers/gerbera.png" id="11_1nqs0"]
-[ext_resource type="Texture2D" uid="uid://ba6qfe67qwfl0" path="res://assets/aseprite/flowers/eucalyptus.png" id="12_1iba3"]
-[ext_resource type="Texture2D" uid="uid://beoyhj5rulskk" path="res://assets/aseprite/flowers/snapdragon .png" id="12_3p2gp"]
+[ext_resource type="Texture2D" uid="uid://cs3nndocuo8nn" path="res://assets/aseprite/flowers/iris.png" id="5_mwfav"]
+[ext_resource type="Texture2D" uid="uid://bakg41lymj1j" path="res://assets/aseprite/flowers/calla lily.png" id="6_3p2gp"]
+[ext_resource type="Texture2D" uid="uid://t7i0wpvqdk07" path="res://assets/aseprite/flowers/daisy.png" id="7_cvmbd"]
+[ext_resource type="Texture2D" uid="uid://bv6i2w38ianhu" path="res://assets/aseprite/flowers/lily.png" id="8_ft6cd"]
+[ext_resource type="Texture2D" uid="uid://ddy0cpo6husca" path="res://assets/aseprite/flowers/ruscus.png" id="9_bb450"]
+[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/aseprite/flowers/peony.png" id="10_nfivy"]
+[ext_resource type="Texture2D" uid="uid://ccje40olbyfa8" path="res://assets/aseprite/flowers/gerbera.png" id="11_1nqs0"]
+[ext_resource type="Texture2D" uid="uid://bdjtt1e16l67k" path="res://assets/aseprite/flowers/eucalyptus.png" id="12_1iba3"]
 [ext_resource type="PackedScene" uid="uid://qkqlx0byjsdb" path="res://scenes/Vase.tscn" id="15_cvmbd"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
@@ -28,8 +26,9 @@ flower_texture = ExtResource("2_vcsgt")
 
 [node name="Flower2" parent="FlowerStand" unique_id=1026794971 instance=ExtResource("1_rarhs")]
 position = Vector2(55, 126)
-flower_id = "tulip"
-flower_texture = ExtResource("3_nxtc6")
+flower_id = "eucalyptus"
+flower_texture = ExtResource("12_1iba3")
+is_filler = true
 
 [node name="Flower3" parent="FlowerStand" unique_id=1134562820 instance=ExtResource("1_rarhs")]
 position = Vector2(96, 128)
@@ -55,6 +54,7 @@ flower_texture = ExtResource("8_ft6cd")
 position = Vector2(186, 132)
 flower_id = "ruscus"
 flower_texture = ExtResource("9_bb450")
+is_filler = true
 
 [node name="Flower8" parent="FlowerStand" unique_id=298153928 instance=ExtResource("1_rarhs")]
 position = Vector2(166, 53)
@@ -65,16 +65,6 @@ flower_texture = ExtResource("10_nfivy")
 position = Vector2(211, 54)
 flower_id = "gerbera"
 flower_texture = ExtResource("11_1nqs0")
-
-[node name="Flower10" parent="FlowerStand" unique_id=1580843781 instance=ExtResource("1_rarhs")]
-position = Vector2(254, 55)
-flower_id = "snapdragon"
-flower_texture = ExtResource("12_3p2gp")
-
-[node name="Flower11" parent="FlowerStand" unique_id=1232500379 instance=ExtResource("1_rarhs")]
-position = Vector2(231, 134)
-flower_id = "eucalyptus"
-flower_texture = ExtResource("12_1iba3")
 
 [node name="Customer" type="Node2D" parent="." unique_id=1114677330]
 
@@ -97,23 +87,32 @@ offset_right = 214.0
 offset_bottom = 337.0
 text = "Clear vase"
 
-[node name="GameManager" type="Node2D" parent="." unique_id=483342966]
-script = ExtResource("4_nxtc6")
-flower_scene = ExtResource("1_rarhs")
+[node name="ConfirmButton" type="Button" parent="UI" unique_id=559247473]
+offset_left = 248.0
+offset_top = 308.0
+offset_right = 358.0
+offset_bottom = 338.0
+text = "Confirm main flowers
+"
 
-[node name="MovingFlowers" type="Node2D" parent="." unique_id=1842306925]
-
-[node name="TestLabel" type="Label" parent="." unique_id=1315127865]
+[node name="OrderLabel" type="Label" parent="UI" unique_id=1315127865]
 offset_left = 180.0
 offset_top = 237.0
 offset_right = 220.0
 offset_bottom = 260.0
 
-[node name="FeedbackLabel" type="Label" parent="." unique_id=2029746365]
+[node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
 offset_left = 192.0
 offset_top = 164.0
 offset_right = 232.0
 offset_bottom = 187.0
+
+[node name="GameManager" type="Node2D" parent="." unique_id=483342966]
+scale = Vector2(1, 1.00672)
+script = ExtResource("4_nxtc6")
+flower_scene = ExtResource("1_rarhs")
+
+[node name="MovingFlowers" type="Node2D" parent="." unique_id=1842306925]
 
 [node name="Vase" parent="." unique_id=1972029331 instance=ExtResource("15_cvmbd")]
 position = Vector2(108, 256)
