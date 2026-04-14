@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bakg41lymj1j" path="res://assets/flowers/calla lily.png" id="6_3p2gp"]
 [ext_resource type="Texture2D" uid="uid://t7i0wpvqdk07" path="res://assets/flowers/daisy.png" id="7_cvmbd"]
 [ext_resource type="Texture2D" uid="uid://bv6i2w38ianhu" path="res://assets/flowers/lily.png" id="8_ft6cd"]
-[ext_resource type="Texture2D" uid="uid://ddy0cpo6husca" path="res://assets/flowers/ruscus.png" id="9_bb450"]
+[ext_resource type="Texture2D" uid="uid://cq7otk2mt38kp" path="res://assets/flowers/ruscus.png" id="9_bb450"]
 [ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/flowers/peony.png" id="10_nfivy"]
 [ext_resource type="Texture2D" uid="uid://ccje40olbyfa8" path="res://assets/flowers/gerbera.png" id="11_1nqs0"]
 [ext_resource type="Texture2D" uid="uid://bdjtt1e16l67k" path="res://assets/flowers/eucalyptus.png" id="12_1iba3"]
@@ -28,6 +28,11 @@
 [ext_resource type="Texture2D" uid="uid://cpe510tcedvr7" path="res://assets/FlowerPots/Ruscus.png" id="20_pnhog"]
 [ext_resource type="Texture2D" uid="uid://hkeutxe631r4" path="res://assets/FlowerPots/Peony.png" id="21_2c4at"]
 [ext_resource type="Texture2D" uid="uid://cq318p6myi5r7" path="res://assets/FlowerPots/Gerbera.png" id="22_g6wdg"]
+[ext_resource type="Texture2D" uid="uid://rgc3u256yx7y" path="res://assets/UI/OrderNote.png" id="26_dg70y"]
+[ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="27_pnhog"]
+[ext_resource type="PackedScene" uid="uid://c8b2tfdd2x46d" path="res://scenes/Customer.tscn" id="29_e2s0e"]
+[ext_resource type="Texture2D" uid="uid://og1qgtme7j1k" path="res://assets/MainScene/Girl.png" id="30_v0vrg"]
+[ext_resource type="Texture2D" uid="uid://d0sv66omoyvvn" path="res://assets/MainScene/Boy.png" id="31_dg70y"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
 
@@ -45,7 +50,7 @@ flower_texture = ExtResource("2_vcsgt")
 pot_texture = ExtResource("14_fs0b5")
 
 [node name="Pot2" parent="Environment/FlowerStand" unique_id=1114765108 instance=ExtResource("12_bb450")]
-position = Vector2(157, 114)
+position = Vector2(159, 114)
 script = ExtResource("13_nfivy")
 flower_id = "eucalyptus"
 flower_texture = ExtResource("12_1iba3")
@@ -108,7 +113,6 @@ position = Vector2(426, 196)
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
 [node name="TutorialLayer" type="Control" parent="UI" unique_id=128188464]
-visible = false
 top_level = true
 layout_mode = 3
 anchors_preset = 15
@@ -159,7 +163,6 @@ position = Vector2(551, 61)
 texture = ExtResource("12_cvmbd")
 
 [node name="HighlightReact" type="ColorRect" parent="UI/TutorialLayer" unique_id=1481109106]
-visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -167,30 +170,22 @@ mouse_filter = 2
 color = Color(1, 1, 0, 0.18)
 
 [node name="PointerArrow" type="Sprite2D" parent="UI/TutorialLayer" unique_id=646377667]
-visible = false
 texture = ExtResource("12_3p2gp")
 
 [node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
-offset_left = 310.0
-offset_top = 226.0
-offset_right = 387.0
-offset_bottom = 257.0
+offset_left = 319.0
+offset_top = 273.0
+offset_right = 396.0
+offset_bottom = 304.0
 text = "Submit
 "
 
 [node name="ClearVaseButton" type="Button" parent="UI" unique_id=985367551]
-offset_left = 469.0
-offset_top = 226.0
-offset_right = 557.0
-offset_bottom = 257.0
+offset_left = 401.0
+offset_top = 272.0
+offset_right = 489.0
+offset_bottom = 303.0
 text = "Clear vase"
-
-[node name="OrderLabel" type="Label" parent="UI" unique_id=1315127865]
-offset_left = 449.0
-offset_top = 17.0
-offset_right = 564.0
-offset_bottom = 127.0
-autowrap_mode = 3
 
 [node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
 offset_left = 315.0
@@ -199,9 +194,21 @@ offset_right = 355.0
 offset_bottom = 76.0
 text = "asd"
 
-[node name="Customer" type="Node2D" parent="." unique_id=1114677330]
+[node name="Order" type="Node2D" parent="UI" unique_id=305552183]
+position = Vector2(551, 259)
 
-[node name="Sprite2D" type="Sprite2D" parent="Customer" unique_id=2018346163]
+[node name="OrderNote" type="Sprite2D" parent="UI/Order" unique_id=203985848]
+position = Vector2(-4, -5)
+texture = ExtResource("26_dg70y")
+
+[node name="OrderLabel" type="Label" parent="UI/Order" unique_id=1315127865]
+offset_left = -43.0
+offset_top = -62.0
+offset_right = 38.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("27_pnhog")
+theme_override_font_sizes/font_size = 10
+autowrap_mode = 3
 
 [node name="GameManager" type="Node2D" parent="." unique_id=483342966]
 scale = Vector2(1, 1.00672)
@@ -213,4 +220,7 @@ flower_scene = ExtResource("1_rarhs")
 [node name="TutorialManager" type="Node2D" parent="." unique_id=1748724015]
 position = Vector2(0, 2)
 script = ExtResource("14_mwfav")
-start_with_tutorial = false
+
+[node name="Customer" parent="." unique_id=617086023 instance=ExtResource("29_e2s0e")]
+position = Vector2(1.1920929e-07, -97.00001)
+customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_dg70y")])

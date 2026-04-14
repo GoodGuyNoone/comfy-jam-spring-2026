@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq7otk2mt38kp"
-path="res://.godot/imported/ruscus.png-a3d6eec4d9061d8a7a819d636dff5600.ctex"
+uid="uid://rgc3u256yx7y"
+path="res://.godot/imported/OrderNote.png-9b96df12de201fd0c46e14effffdb0d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/flowers/ruscus.png"
-dest_files=["res://.godot/imported/ruscus.png-a3d6eec4d9061d8a7a819d636dff5600.ctex"]
+source_file="res://assets/UI/OrderNote.png"
+dest_files=["res://.godot/imported/OrderNote.png-9b96df12de201fd0c46e14effffdb0d4.ctex"]
 
 [params]
 

@@ -45,7 +45,7 @@ func _build_steps() -> void:
 			"speaker": "Manager",
 			"text": "This receipt shows what the customer wants. First place the main flowers.",
 			"mode": "message",
-			"highlight_target": "UI/OrderLabel"
+			"highlight_target": "UI/Order"
 		},
 		{
 			"id": "pick_main",

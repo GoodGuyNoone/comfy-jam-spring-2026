@@ -1,3 +1,42 @@
 [gd_scene format=3 uid="uid://c34o3hum0evra"]
 
-[node name="ЬфштЬутг" type="Node2D" unique_id=1008385990]
+[ext_resource type="Script" uid="uid://big2rqychod46" path="res://scripts/MainMenu.gd" id="1_yqorp"]
+[ext_resource type="PackedScene" uid="uid://c77pklvidmtbi" path="res://scenes/Main.tscn" id="2_0ykhv"]
+
+[node name="MainMenu" type="Control" unique_id=1518839107]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_yqorp")
+game_scene = ExtResource("2_0ykhv")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1105725425]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(1, 1, 1, 0.75900006)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1665275009]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 286.0
+offset_top = 146.0
+offset_right = 379.0
+offset_bottom = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="StartButton" type="Button" parent="VBoxContainer" unique_id=1625134630]
+layout_mode = 2
+text = "Start game
+"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1424764661]
+layout_mode = 2
+text = "Exit
+"
