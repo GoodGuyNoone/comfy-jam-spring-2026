@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://du4w4o8sp37a4" path="res://scripts/Vase.gd" id="1_mfl1g"]
 [ext_resource type="Script" uid="uid://b4eli7gjhm4w0" path="res://scripts/BouquetSlot.gd" id="2_dijoe"]
-[ext_resource type="Texture2D" uid="uid://frkni1qfsqcs" path="res://assets/aseprite/flowers/VaseBack.png" id="2_iccn5"]
-[ext_resource type="Texture2D" uid="uid://dhj6igwr3m6k1" path="res://assets/aseprite/flowers/VaseFront.png" id="3_dijoe"]
+[ext_resource type="Texture2D" uid="uid://cl35u8xyuy5aq" path="res://assets/MainScene/Vase.png" id="2_iccn5"]
+[ext_resource type="Texture2D" uid="uid://bqiaarxtdbi2" path="res://assets/MainScene/Vase_back.png" id="3_dijoe"]
 
 [node name="Vase" type="Node2D" unique_id=1972029331]
 script = ExtResource("1_mfl1g")
@@ -13,12 +13,12 @@ script = ExtResource("1_mfl1g")
 [node name="VaseBack" type="Sprite2D" parent="VaseSprite" unique_id=172131813]
 z_index = -1
 position = Vector2(0, 30)
-texture = ExtResource("2_iccn5")
+texture = ExtResource("3_dijoe")
 
 [node name="VaseFront" type="Sprite2D" parent="VaseSprite" unique_id=112026993]
-z_index = 5
+z_index = 6
 position = Vector2(0, 30)
-texture = ExtResource("3_dijoe")
+texture = ExtResource("2_iccn5")
 
 [node name="FlowersContainer" type="Node2D" parent="." unique_id=481544525]
 

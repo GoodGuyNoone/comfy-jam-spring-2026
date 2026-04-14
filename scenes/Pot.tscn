@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1hui8xg6354w"]
 
-[ext_resource type="Texture2D" uid="uid://lpfw1bbalaaw" path="res://assets/aseprite/flowers/PeonyPot.png" id="1_ynmsd"]
-[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/aseprite/flowers/peony.png" id="2_gpnl5"]
+[ext_resource type="Texture2D" uid="uid://hkeutxe631r4" path="res://assets/FlowerPots/Peony.png" id="1_ynmsd"]
+[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/flowers/peony.png" id="2_gpnl5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ynmsd"]
 size = Vector2(56, 70)

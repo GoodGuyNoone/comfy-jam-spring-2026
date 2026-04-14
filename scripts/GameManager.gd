@@ -12,8 +12,8 @@ var current_phase: String = "main"
 var is_animating: bool = false
 var order_index: int = 0
 
-@onready var flower_stand = get_parent().get_node("FlowerStand")
-@onready var vase = get_parent().get_node("Vase")
+@onready var vase = $'../Environment/Vase'
+@onready var flower_stand: Node2D = $'../Environment/FlowerStand'
 @onready var moving_flowers = get_parent().get_node("MovingFlowers")
 @onready var order_label: Label = get_parent().get_node("UI/OrderLabel")
 @onready var submit_button: Button = get_parent().get_node("UI/SubmitButton")
@@ -40,7 +40,7 @@ func _ready() -> void:
 
 	collect_available_flowers_from_stand()
 
-	order_index = 1
+	order_index = 0
 	call_deferred("start_round")
 
 
@@ -54,15 +54,15 @@ func start_round() -> void:
 	var main_count : int
 	var filler_count : int
 
-	# if order_index <= 2:
-	# 	main_count = 3
-	# 	filler_count = 2
-	# elif order_index <= 5:
-	# 	main_count = 5
-	# 	filler_count = 2
-	# else:
-	main_count = 7
-	filler_count = 3
+	if order_index <= 2:
+		main_count = 3
+		filler_count = 2
+	elif order_index <= 5:
+		main_count = 5
+		filler_count = 2
+	else:
+		main_count = 7
+		filler_count = 3
 	
 	current_main_order = generate_order(available_main_flowers, main_count)
 	current_filler_order = generate_order(available_filler_flowers, filler_count)
@@ -71,7 +71,7 @@ func start_round() -> void:
 	print("layout set to:" + str(layout_size))
 	vase.set_layout_size(layout_size)
 
-	feedback_label.text = ""
+	# feedback_label.text = ""
 	refresh_phase_state()
 	update_receipt_ui()
 	update_submit_state()
@@ -325,12 +325,15 @@ func _on_submit_pressed() -> void:
 
 	if is_full_bouquet_correct():
 		feedback_label.text = "Correct"
+		print("success" + feedback_label.text)
 
 		if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 			tutorial_manager.try_progress_action("submit_bouquet")
 
+		order_index += 1
 		start_round()
 	else:
+		print("not success" + feedback_label.text)
 		feedback_label.text = "Wrong"
 		start_round()
 
@@ -369,6 +372,14 @@ func is_main_bouquet_correct() -> bool:
 	if bouquet.size() != current_main_order.size():
 		return false
 
+	print ("main bouquet verification")
+	print ("bouquet:")
+	for i in bouquet.size():
+		print(bouquet[i] + ", ")
+
+	print ("current_main_order:")
+	for i in bouquet.size():
+		print(current_main_order[i]  + ", ")
 	return get_flower_counts(bouquet) == get_flower_counts(current_main_order)
 
 func is_filler_bouquet_correct() -> bool:
@@ -380,6 +391,7 @@ func is_filler_bouquet_correct() -> bool:
 	return get_flower_counts(bouquet) == get_flower_counts(current_filler_order)
 
 func is_full_bouquet_correct() -> bool:
+	print("verifying bouquet")
 	return is_main_bouquet_correct() and is_filler_bouquet_correct()
 
 

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dvr7scg6i6ivr"]
+
+[ext_resource type="Texture2D" uid="uid://c61j5j2l5pfdb" path="res://assets/MainScene/Shelf_back.png" id="1_wcknk"]
+[ext_resource type="Texture2D" uid="uid://dprmoeqij3inv" path="res://assets/MainScene/Shelves.png" id="2_xd4ll"]
+[ext_resource type="Texture2D" uid="uid://2d5hnt1nv4oe" path="res://assets/MainScene/Shelf front part.png" id="3_kuack"]
+[ext_resource type="Texture2D" uid="uid://de2l04xis56b5" path="res://assets/MainScene/Signs.png" id="4_xd4ll"]
+
+[node name="Shelf" type="Node2D" unique_id=736557770]
+
+[node name="BackSide" type="Sprite2D" parent="." unique_id=1570205568]
+texture = ExtResource("1_wcknk")
+
+[node name="Shelves" type="Sprite2D" parent="." unique_id=1238246340]
+texture = ExtResource("2_xd4ll")
+
+[node name="FrontSide" type="Sprite2D" parent="." unique_id=1440231815]
+position = Vector2(11, -1)
+texture = ExtResource("3_kuack")
+
+[node name="Signs" type="Sprite2D" parent="." unique_id=1838830388]
+position = Vector2(0, 55)
+texture = ExtResource("4_xd4ll")
