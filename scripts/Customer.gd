@@ -8,6 +8,7 @@ signal customer_leave_finished
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bouquet_anchor: Marker2D = $Sprite2D/BouquetAnchor
+@onready var feedback_effect = $Sprite2D/FeedbackAnchor/FeedbackEffect
 
 
 func _ready():
@@ -47,3 +48,11 @@ func _on_animation_finished(anim_name: String) -> void:
 	elif anim_name == "leave_customer":
 		hide_customer()
 		customer_leave_finished.emit()
+
+
+func play_happy_reaction() -> void:
+	feedback_effect.play_success()
+
+
+func play_wrong_reaction() -> void:
+	feedback_effect.play_wrong()

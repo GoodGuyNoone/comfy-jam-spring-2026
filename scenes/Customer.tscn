@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://og1qgtme7j1k" path="res://assets/MainScene/Girl.png" id="1_bov33"]
 [ext_resource type="Script" uid="uid://dggunnlobsbxp" path="res://scripts/Customer.gd" id="1_wpj86"]
 [ext_resource type="AudioStream" uid="uid://bjs2teex77yy7" path="res://assets/sounds/doorbell.mp3" id="2_wpj86"]
+[ext_resource type="PackedScene" uid="uid://dsb3exvwi1vjy" path="res://scenes/FeedbackEffect.tscn" id="3_qs715"]
 
 [sub_resource type="Animation" id="Animation_qs715"]
 length = 0.001
@@ -115,6 +116,15 @@ texture = ExtResource("1_bov33")
 z_index = 10
 position = Vector2(-40.68744, 73.76555)
 rotation = 0.005698247
+
+[node name="FeedbackAnchor" type="Marker2D" parent="Sprite2D" unique_id=1362299482]
+z_index = 10
+position = Vector2(-60.551758, -46.717834)
+rotation = 0.005698247
+
+[node name="FeedbackEffect" parent="Sprite2D/FeedbackAnchor" unique_id=972134459 instance=ExtResource("3_qs715")]
+visible = false
+rotation = 0.0117550455
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=697658052]
 libraries/ = SubResource("AnimationLibrary_eousj")

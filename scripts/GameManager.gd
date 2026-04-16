@@ -418,9 +418,11 @@ func _on_submit_pressed() -> void:
 
 	if last_delivery_was_successful:
 		feedback_label.text = "Correct"
+		customer.play_happy_reaction()
 	else:
-		feedback_label.text = "Wrong"
+		customer.play_wrong_reaction()
 
+	# await feedback_effect.effect_finished
 	deliver_bouquet_to_customer()
 
 
@@ -530,8 +532,20 @@ func is_main_bouquet_correct() -> bool:
 func is_filler_bouquet_correct() -> bool:
 	var bouquet: Array[StringName] = vase.get_flowers_for_phase("filler")
 
+	var filler_order: String = "Order: "
+	var filler_bouquet_: String = "Bouquet: "
+
 	if bouquet.size() != current_filler_order.size():
 		return false
+
+	for i in current_main_order.size():
+		filler_order+= current_main_order[i] + ", "
+
+	for i in bouquet.size():
+		filler_bouquet_ += current_main_order[i] + ", "
+	
+	print(filler_order)
+	print(filler_bouquet_)
 
 	return get_flower_counts(bouquet) == get_flower_counts(current_filler_order)
 

@@ -35,6 +35,7 @@
 [ext_resource type="PackedScene" uid="uid://c8b2tfdd2x46d" path="res://scenes/Customer.tscn" id="29_e2s0e"]
 [ext_resource type="Texture2D" uid="uid://og1qgtme7j1k" path="res://assets/MainScene/Girl.png" id="30_v0vrg"]
 [ext_resource type="Texture2D" uid="uid://d0sv66omoyvvn" path="res://assets/MainScene/Boy.png" id="31_dg70y"]
+[ext_resource type="PackedScene" uid="uid://dsb3exvwi1vjy" path="res://scenes/FeedbackEffect.tscn" id="36_hq6as"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
 
@@ -267,3 +268,6 @@ start_with_tutorial = false
 z_index = -1
 position = Vector2(1.1920929e-07, -97.00001)
 customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_dg70y")])
+
+[node name="FeedbackEffect" parent="Customer" unique_id=972134459 instance=ExtResource("36_hq6as")]
+position = Vector2(502.41446, 191.26077)
