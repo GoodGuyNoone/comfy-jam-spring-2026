@@ -1,5 +1,5 @@
 extends Area2D
-class_name PointerArrow
+class_name Pot
 
 signal pot_selected(flower_id, flower_texture, start_global_position, is_filler)
 

@@ -1,6 +1,8 @@
 extends Node
 
 @export var flower_scene: PackedScene
+@export var packed_bouquet_scene: PackedScene
+
 
 var available_main_flowers: Array[StringName] = []
 var available_filler_flowers: Array[StringName] = []
@@ -16,21 +18,23 @@ var delivered_bouquet: Node2D = null
 
 
 @onready var vase = $'../Environment/Vase'
+@onready var flower_stand_pots: Node2D = $'../Environment/FlowerStand/Pots'
 @onready var flower_stand: Node2D = $'../Environment/FlowerStand'
 @onready var moving_flowers = get_parent().get_node("MovingFlowers")
-@onready var order: Node2D = get_parent().get_node("UI/Order")
-@onready var order_label: Label = get_parent().get_node("UI/Order/OrderLabel")
+@onready var orderNode: Node2D = get_parent().get_node("Environment/Order")
+@onready var order_label: Label = get_parent().get_node("Environment/Order/OrderLabel")
 @onready var submit_button: Button = get_parent().get_node("UI/SubmitButton")
 @onready var clear_button: Button = get_parent().get_node("UI/ClearVaseButton")
 @onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
 @onready var tutorial_manager: Node2D = $'../TutorialManager'
 @onready var customer = $'../Customer'
+@onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
 
 
 func _ready() -> void:
 	randomize()
 
-	flower_stand.flower_selected.connect(_on_flower_selected)
+	flower_stand_pots.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
 	clear_button.pressed.connect(_on_clear_pressed)
 
@@ -68,8 +72,6 @@ func start_customer_round() -> void:
 	vase.clear_vase()
 	generate_current_order_by_progression()
 
-	order.visible = false
-
 	submit_button.disabled = true
 	feedback_label.text = ""
 
@@ -84,6 +86,8 @@ func start_tutorial_round() -> void:
 	round_active = false
 	awaiting_customer = false
 
+	orderNode.visible = false
+
 	customer.hide_customer()
 	vase.clear_vase()
 	generate_current_order_by_progression()
@@ -96,8 +100,12 @@ func start_tutorial_round() -> void:
 
 func _on_tutorial_finished() -> void:
 	feedback_label.text = ""
-	start_customer_round()
 
+	orderNode.visible = false
+	submit_button.disabled = false
+	clear_button.disabled = false
+
+	start_customer_round()
 
 func tutorial_blocks_pick(is_filler: bool) -> bool:
 	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
@@ -119,7 +127,7 @@ func tutorial_blocks_pick(is_filler: bool) -> bool:
 		"complete_filler_count":
 			return not is_filler
 		"submit_bouquet":
-			return true
+			return false
 		"remove_single_flower":
 			return true
 		"clear_vase":
@@ -132,10 +140,10 @@ func _on_customer_enter_finished() -> void:
 	awaiting_customer = false
 	round_active = true
 
-	order.visible = true
 	refresh_phase_state()
 	update_receipt_ui()
 	update_submit_state()
+	orderNode.visible = true
 
 
 func _on_customer_leave_finished() -> void:
@@ -168,7 +176,12 @@ func tutorial_blocks_clear() -> bool:
 	if step.is_empty():
 		return true
 
-	return step.get("action", "") != "clear_vase"
+	var action: String = step.get("action", "")
+
+	if action == "submit_bouquet":
+		return false
+
+	return action != "clear_vase"
 
 
 func tutorial_blocks_remove_flower() -> bool:
@@ -179,14 +192,19 @@ func tutorial_blocks_remove_flower() -> bool:
 	if step.is_empty():
 		return true
 
-	return step.get("action", "") != "remove_single_flower"
+	var action: String = step.get("action", "")
+
+	if action == "submit_bouquet":
+		return false
+
+	return action != "remove_single_flower"
 
 
 func collect_available_flowers_from_stand() -> void:
 	available_main_flowers.clear()
 	available_filler_flowers.clear()
 
-	for child in flower_stand.get_children():
+	for child in flower_stand_pots.get_children():
 		if child.flower_id == "":
 			continue
 
@@ -287,6 +305,7 @@ func update_receipt_ui() -> void:
 
 	order_label.text = text
 
+
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2, is_filler: bool) -> void:
 	if is_animating:
 		return
@@ -384,7 +403,15 @@ func _on_submit_pressed() -> void:
 			tutorial_manager.try_progress_action("submit_bouquet")
 		else:
 			feedback_label.text = "Wrong"
-			tutorial_manager.try_progress_action("submit_bouquet")
+
+			var step: Dictionary = tutorial_manager.get_current_step()
+			if not step.is_empty():
+				tutorial_manager.message_label.text = "That bouquet is wrong. Compare it with the receipt and fix it."
+
+			submit_button.disabled = false
+			clear_button.disabled = false
+			highlight_react.visible = false
+
 		return
 
 	last_delivery_was_successful = is_full_bouquet_correct()
@@ -425,67 +452,40 @@ func deliver_bouquet_to_customer() -> void:
 
 	var bouquet_children: Array = vase.flowers_container.get_children()
 	if bouquet_children.is_empty():
+		orderNode.visible = false
 		customer.play_leave()
 		return
-
-	delivered_bouquet = Node2D.new()
-	delivered_bouquet.name = "DeliveredBouquet"
-	moving_flowers.add_child(delivered_bouquet)
 
 	var center := Vector2.ZERO
 	for flower in bouquet_children:
 		center += flower.global_position
 	center /= bouquet_children.size()
 
+	delivered_bouquet = packed_bouquet_scene.instantiate()
+	delivered_bouquet.name = "DeliveredBouquet"
+	moving_flowers.add_child(delivered_bouquet)
 	delivered_bouquet.global_position = center
+
+	var flowers_root: Node2D = delivered_bouquet.get_node("VisualRoot/FlowersRoot")
 
 	for flower in bouquet_children:
 		var global_pos: Vector2 = flower.global_position
 		vase.flowers_container.remove_child(flower)
-		delivered_bouquet.add_child(flower)
+		flowers_root.add_child(flower)
 		flower.global_position = global_pos
 
-	# small bouquet polish particles
-	var particles := CPUParticles2D.new()
-	particles.name = "BouquetParticles"
-	particles.one_shot = true
-	particles.emitting = false
-	particles.amount = 18
-	particles.lifetime = 0.45
-	particles.explosiveness = 1.0
-	particles.direction = Vector2(0, -1)
-	particles.spread = 150.0
-	particles.initial_velocity_min = 20.0
-	particles.initial_velocity_max = 45.0
-	particles.scale_amount_min = 0.6
-	particles.scale_amount_max = 1.2
-	particles.gravity = Vector2(0, -10)
-	delivered_bouquet.add_child(particles)
+	delivered_bouquet.play_delivery()
+	await delivered_bouquet.delivery_animation_finished
 
 	var hand_target: Vector2 = customer.get_bouquet_target_global_position()
-
-	var rise_position := delivered_bouquet.global_position + Vector2(0, -18)
 
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_OUT)
-
-	# stage 1: raise and scale a bit
-	tween.tween_property(delivered_bouquet, "global_position", rise_position, 0.18)
-	tween.parallel().tween_property(delivered_bouquet, "scale", Vector2(1.08, 1.08), 0.18)
-	tween.parallel().tween_callback(func(): particles.emitting = true)
-
-	# small pause
-	tween.tween_interval(0.05)
-
-	# stage 2: move to hand
 	tween.tween_property(delivered_bouquet, "global_position", hand_target, 0.35)
-	tween.parallel().tween_property(delivered_bouquet, "scale", Vector2(0.92, 0.92), 0.35)
-	tween.parallel().tween_property(delivered_bouquet, "rotation_degrees", -6.0, 0.35)
 
 	await tween.finished
 
-	# attach bouquet to customer so it leaves together with them
 	var final_global := delivered_bouquet.global_position
 	moving_flowers.remove_child(delivered_bouquet)
 	customer.get_node("Sprite2D/BouquetAnchor").add_child(delivered_bouquet)
@@ -493,6 +493,7 @@ func deliver_bouquet_to_customer() -> void:
 	delivered_bouquet.position = Vector2.ZERO
 
 	vase.clear_vase()
+	orderNode.visible = false
 	customer.play_leave()
 
 
@@ -516,7 +517,7 @@ func is_main_bouquet_correct() -> bool:
 	if bouquet.size() != current_main_order.size():
 		return false
 
-	for i in bouquet.size():
+	for i in current_main_order.size():
 		bouquet_ += current_main_order[i] + ", "
 
 	for i in bouquet.size():

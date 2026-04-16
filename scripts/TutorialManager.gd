@@ -45,7 +45,7 @@ func _build_steps() -> void:
 			"speaker": "Manager",
 			"text": "This receipt shows what the customer wants. First place the main flowers.",
 			"mode": "message",
-			"highlight_target": "UI/Order"
+			"highlight_target": "Environment/Order/OrderNote/Highlight"
 		},
 		{
 			"id": "pick_main",
@@ -53,15 +53,15 @@ func _build_steps() -> void:
 			"text": "Pick a main flower from the stand.",
 			"mode": "wait_action",
 			"action": "pick_main",
-			"highlight_target": "FlowerStand"
+			"highlight_target": "Environment/FlowerStand/Highlight"
 		},
 		{
 			"id": "complete_main_count",
 			"speaker": "Manager",
-			"text": "Good. Place the required main flowers into the vase.",
+			"text": "Good. Place the remaining required main flowers into the vase.",
 			"mode": "wait_action",
 			"action": "complete_main_count",
-			"highlight_target": "Vase"
+			"highlight_target": "Environment/Vase/Highlight"
 		},
 		{
 			"id": "remove_one_flower",
@@ -69,7 +69,7 @@ func _build_steps() -> void:
 			"text": "If you make a mistake, click a flower in the vase to remove it.",
 			"mode": "wait_action",
 			"action": "remove_single_flower",
-			"highlight_target": "Vase"
+			# "highlight_target": "Vase"
 		},
 		{
 			"id": "clear_vase_info",
@@ -85,7 +85,7 @@ func _build_steps() -> void:
 			"text": "Now place the main flowers again.",
 			"mode": "wait_action",
 			"action": "complete_main_count",
-			"highlight_target": "Vase"
+			# "highlight_target": "Vase"
 		},
 		{
 			"id": "pick_fillers",
@@ -101,7 +101,7 @@ func _build_steps() -> void:
 			"text": "Place the required filler flowers.",
 			"mode": "wait_action",
 			"action": "complete_filler_count",
-			"highlight_target": "Vase"
+			# "highlight_target": "Vase"
 		},
 		{
 			"id": "submit_info",
@@ -116,7 +116,9 @@ func _build_steps() -> void:
 			"speaker": "Manager",
 			"text": "Good. You are ready to work on your own now.",
 			"mode": "message"
-		}
+		},
+		
+		
 	]
 
 
@@ -138,6 +140,7 @@ func start_tutorial() -> void:
 	tutorial_layer.visible = true
 	_show_current_step()
 
+
 func finish_tutorial() -> void:
 	tutorial_active = false
 	tutorial_layer.visible = false
@@ -145,17 +148,21 @@ func finish_tutorial() -> void:
 	pointer_arrow.visible = false
 	tutorial_finished.emit()
 
+
 func is_tutorial_active() -> bool:
 	return tutorial_active
+
 
 func get_current_step() -> Dictionary:
 	if current_step_index < 0 or current_step_index >= steps.size():
 		return {}
 	return steps[current_step_index]
 
+
 func can_continue_message() -> bool:
 	var step := get_current_step()
 	return step.has("mode") and step["mode"] == "message"
+
 
 func _show_current_step() -> void:
 	if current_step_index >= steps.size():
@@ -173,6 +180,9 @@ func _show_current_step() -> void:
 	if step.has("highlight_target"):
 		_show_highlight_for_path(step["highlight_target"])
 
+	print(step.id)
+
+
 func next_message_step() -> void:
 	if not tutorial_active:
 		return
@@ -183,9 +193,14 @@ func next_message_step() -> void:
 
 	if step.get("mode", "") != "message":
 		return
+	
+	if step.get("id", "") == "intro_1":
+		var gm = get_tree().current_scene.get_node("GameManager")
+		gm.orderNode.visible = true
 
 	current_step_index += 1
 	_show_current_step()
+
 
 func try_progress_action(action_name: String) -> void:
 	if not tutorial_active:
@@ -219,6 +234,7 @@ func _show_highlight_for_path(node_path: String) -> void:
 
 	pointer_arrow.visible = true
 	pointer_arrow.position = Vector2(rect.position.x + rect.size.x * 0.5 - 8.0, rect.position.y - 28.0)
+
 
 func _get_global_rect_for_node(target: Node) -> Rect2:
 	if target is Control:

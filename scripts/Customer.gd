@@ -37,8 +37,7 @@ func hide_customer() -> void:
 
 
 func get_bouquet_target_global_position() -> Vector2:
-	print(bouquet_anchor.global_position)
-	return bouquet_anchor.global_position
+	return $Sprite2D/BouquetAnchor.global_position
 
 
 func _on_animation_finished(anim_name: String) -> void:

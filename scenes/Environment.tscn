@@ -11,6 +11,7 @@ position = Vector2(320, 332)
 texture = ExtResource("1_py72o")
 
 [node name="Table" type="Sprite2D" parent="." unique_id=2056253569]
+z_index = 4
 position = Vector2(487, 299)
 texture = ExtResource("2_xn25y")
 
