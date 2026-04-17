@@ -30,7 +30,8 @@ func _ready() -> void:
 	next_arrow.gui_input.connect(_on_next_arrow_gui_input)
 
 	if start_with_tutorial:
-		call_deferred("start_tutorial")
+		tutorial_active = false
+		tutorial_layer.visible = false
 
 func _build_steps() -> void:
 	steps = [
@@ -114,11 +115,9 @@ func _build_steps() -> void:
 		{
 			"id": "done",
 			"speaker": "Manager",
-			"text": "Good. You are ready to work on your own now.",
+			"text": "Good. You are ready to work on your own now. Today is not a busy day. You will saw 10 customers",
 			"mode": "message"
 		},
-		
-		
 	]
 
 

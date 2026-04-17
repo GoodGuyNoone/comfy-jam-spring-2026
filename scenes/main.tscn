@@ -28,14 +28,19 @@
 [ext_resource type="Texture2D" uid="uid://cpe510tcedvr7" path="res://assets/FlowerPots/Ruscus.png" id="20_pnhog"]
 [ext_resource type="Texture2D" uid="uid://hkeutxe631r4" path="res://assets/FlowerPots/Peony.png" id="21_2c4at"]
 [ext_resource type="Texture2D" uid="uid://cq318p6myi5r7" path="res://assets/FlowerPots/Gerbera.png" id="22_g6wdg"]
-[ext_resource type="Texture2D" uid="uid://dhnygptosqwgk" path="res://assets/MainScene/Phone.png" id="24_hq6as"]
+[ext_resource type="PackedScene" uid="uid://d1g72vsclo413" path="res://scenes/Phone.tscn" id="24_g6wdg"]
 [ext_resource type="PackedScene" uid="uid://tdhr1apklrux" path="res://scenes/Packaging.tscn" id="25_g6wdg"]
 [ext_resource type="Texture2D" uid="uid://rgc3u256yx7y" path="res://assets/UI/OrderNote.png" id="26_dg70y"]
 [ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="27_pnhog"]
 [ext_resource type="PackedScene" uid="uid://c8b2tfdd2x46d" path="res://scenes/Customer.tscn" id="29_e2s0e"]
 [ext_resource type="Texture2D" uid="uid://og1qgtme7j1k" path="res://assets/MainScene/Girl.png" id="30_v0vrg"]
 [ext_resource type="Texture2D" uid="uid://d0sv66omoyvvn" path="res://assets/MainScene/Boy.png" id="31_dg70y"]
-[ext_resource type="PackedScene" uid="uid://dsb3exvwi1vjy" path="res://scenes/FeedbackEffect.tscn" id="36_hq6as"]
+[ext_resource type="Texture2D" uid="uid://bxi1tasic0bs1" path="res://assets/MainScene/SubmitButton.png" id="32_cobve"]
+[ext_resource type="Texture2D" uid="uid://ldi1ee1ckdk8" path="res://assets/MainScene/SubmitButtonClicked.png" id="33_cmqll"]
+[ext_resource type="Texture2D" uid="uid://dvnvxgm7yn421" path="res://assets/MainScene/SubmitButtonHover.png" id="34_8cp6k"]
+[ext_resource type="Texture2D" uid="uid://cigc4w35ur72i" path="res://assets/MainScene/ClearButton.png" id="35_8b871"]
+[ext_resource type="Texture2D" uid="uid://cc58bcgsvgfs2" path="res://assets/MainScene/ClearButtonClicked.png" id="36_pdwbg"]
+[ext_resource type="Texture2D" uid="uid://urh46dudsolj" path="res://assets/MainScene/ClearButtonHover.png" id="37_5grtr"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
 
@@ -133,13 +138,6 @@ offset_right = 31.0
 offset_bottom = 64.0
 mouse_filter = 2
 
-[node name="Phone" type="Node2D" parent="Environment" unique_id=1066489007]
-z_index = 5
-position = Vector2(578, 254)
-
-[node name="Phone" type="Sprite2D" parent="Environment/Phone" unique_id=1088250222]
-texture = ExtResource("24_hq6as")
-
 [node name="Order" type="Node2D" parent="Environment" unique_id=305552183]
 z_index = -1
 position = Vector2(414, 87)
@@ -165,9 +163,19 @@ theme_override_fonts/font = ExtResource("27_pnhog")
 theme_override_font_sizes/font_size = 10
 autowrap_mode = 3
 
+[node name="Phone" parent="Environment" unique_id=1880114112 instance=ExtResource("24_g6wdg")]
+z_index = 4
+position = Vector2(583, 251)
+
+[node name="Customer" parent="Environment" unique_id=617086023 instance=ExtResource("29_e2s0e")]
+z_index = -1
+position = Vector2(1.1920929e-07, -97.00001)
+customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_dg70y")])
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
 [node name="TutorialLayer" type="Control" parent="UI" unique_id=128188464]
+visible = false
 top_level = true
 layout_mode = 3
 anchors_preset = 15
@@ -230,18 +238,18 @@ color = Color(1, 1, 0, 0.18)
 texture = ExtResource("12_3p2gp")
 
 [node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
-offset_left = 319.0
-offset_top = 273.0
-offset_right = 396.0
-offset_bottom = 304.0
+offset_left = 318.0
+offset_top = 306.0
+offset_right = 395.0
+offset_bottom = 337.0
 text = "Submit
 "
 
 [node name="ClearVaseButton" type="Button" parent="UI" unique_id=985367551]
-offset_left = 401.0
-offset_top = 272.0
-offset_right = 489.0
-offset_bottom = 303.0
+offset_left = 402.0
+offset_top = 306.0
+offset_right = 490.0
+offset_bottom = 337.0
 text = "Clear vase"
 
 [node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
@@ -250,6 +258,25 @@ offset_top = 53.0
 offset_right = 355.0
 offset_bottom = 76.0
 text = "asd"
+
+[node name="SubmitButton2" type="TextureButton" parent="UI" unique_id=1111380393]
+offset_left = 367.0
+offset_top = 258.0
+offset_right = 400.0
+offset_bottom = 282.0
+texture_normal = ExtResource("32_cobve")
+texture_pressed = ExtResource("33_cmqll")
+texture_hover = ExtResource("34_8cp6k")
+ignore_texture_size = true
+
+[node name="ClearButton" type="TextureButton" parent="UI" unique_id=2010979310]
+offset_left = 418.0
+offset_top = 259.0
+offset_right = 455.0
+offset_bottom = 287.0
+texture_normal = ExtResource("35_8b871")
+texture_pressed = ExtResource("36_pdwbg")
+texture_hover = ExtResource("37_5grtr")
 
 [node name="GameManager" type="Node2D" parent="." unique_id=483342966]
 scale = Vector2(1, 1.00672)
@@ -262,12 +289,3 @@ packed_bouquet_scene = ExtResource("25_g6wdg")
 [node name="TutorialManager" type="Node2D" parent="." unique_id=1748724015]
 position = Vector2(0, 2)
 script = ExtResource("14_mwfav")
-start_with_tutorial = false
-
-[node name="Customer" parent="." unique_id=617086023 instance=ExtResource("29_e2s0e")]
-z_index = -1
-position = Vector2(1.1920929e-07, -97.00001)
-customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_dg70y")])
-
-[node name="FeedbackEffect" parent="Customer" unique_id=972134459 instance=ExtResource("36_hq6as")]
-position = Vector2(502.41446, 191.26077)

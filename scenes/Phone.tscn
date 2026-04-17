@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://d1g72vsclo413"]
+
+[ext_resource type="Script" uid="uid://bxqwxv3rguc3u" path="res://Scripts/Phone.gd" id="1_ypxwd"]
+[ext_resource type="Texture2D" uid="uid://dhnygptosqwgk" path="res://assets/MainScene/Phone.png" id="2_t5lxn"]
+[ext_resource type="AudioStream" uid="uid://bb45opkfvhe0n" path="res://assets/sounds/PhoneRinging.mp3" id="3_ds0p6"]
+
+[sub_resource type="Animation" id="Animation_5egc8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_spd4q"]
+resource_name = "phone_ring"
+length = 0.65
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.44, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-2, 0), Vector2(2, -1), Vector2(-2, 0), Vector2(2, -1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.44, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.034906585, 0.034906585, -0.034906585, 0.034906585, -0.017453292, 0.017453292, 0.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q5rsj"]
+_data = {
+&"RESET": SubResource("Animation_5egc8"),
+&"phone_ring": SubResource("Animation_spd4q")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qara"]
+size = Vector2(62, 62)
+
+[node name="Phone" type="Node2D" unique_id=1880114112]
+script = ExtResource("1_ypxwd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1519886494]
+texture = ExtResource("2_t5lxn")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1364158579]
+stream = ExtResource("3_ds0p6")
+parameters/looping = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=869556176]
+libraries/ = SubResource("AnimationLibrary_q5rsj")
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=1342098458]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=55953423]
+shape = SubResource("RectangleShape2D_6qara")
+
+[connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]

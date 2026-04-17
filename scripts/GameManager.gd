@@ -3,7 +3,10 @@ extends Node
 @export var flower_scene: PackedScene
 @export var packed_bouquet_scene: PackedScene
 
+const MAX_ORDERS: int = 2
 
+var successful_bouquets: int = 0
+var wrong_bouquets: int = 0
 var available_main_flowers: Array[StringName] = []
 var available_filler_flowers: Array[StringName] = []
 var round_active: bool = true
@@ -27,8 +30,9 @@ var delivered_bouquet: Node2D = null
 @onready var clear_button: Button = get_parent().get_node("UI/ClearVaseButton")
 @onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
 @onready var tutorial_manager: Node2D = $'../TutorialManager'
-@onready var customer = $'../Customer'
+@onready var customer = $'../Environment/Customer'
 @onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
+@onready var phone = get_parent().get_node("Environment/Phone")
 
 
 func _ready() -> void:
@@ -53,14 +57,26 @@ func _ready() -> void:
 	if customer.has_signal("customer_leave_finished"):
 		customer.customer_leave_finished.connect(_on_customer_leave_finished)
 
+	if phone != null and phone.has_signal("phone_clicked"):
+		phone.phone_clicked.connect(_on_phone_clicked)
+
 	collect_available_flowers_from_stand()
 
+	
+	print("Phone local position:", phone.position)
+	print("Phone global position:", phone.global_position)
+	print("Phone parent:", phone.get_parent().name)
+
 	order_index = 0
+	successful_bouquets = 0
+	wrong_bouquets = 0
 
 	if tutorial_manager != null and tutorial_manager.start_with_tutorial:
-		call_deferred("start_tutorial_round")
+		call_deferred("_start_phone_intro_sequence")
 	else:
 		call_deferred("start_customer_round")
+
+
 
 
 func start_customer_round() -> void:
@@ -107,6 +123,7 @@ func _on_tutorial_finished() -> void:
 
 	start_customer_round()
 
+
 func tutorial_blocks_pick(is_filler: bool) -> bool:
 	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
 		return false
@@ -150,10 +167,14 @@ func _on_customer_leave_finished() -> void:
 	delivered_bouquet.queue_free()
 	delivered_bouquet = null
 
-	if last_delivery_was_successful:
-		order_index += 1
+	order_index += 1
 
 	clear_button.disabled = false
+
+	if order_index > MAX_ORDERS:
+		end_run()
+		return
+
 	start_customer_round()
 
 
@@ -198,6 +219,25 @@ func tutorial_blocks_remove_flower() -> bool:
 		return false
 
 	return action != "remove_single_flower"
+
+
+func _start_phone_intro_sequence() -> void:
+	customer.hide_customer()
+	vase.clear_vase()
+	orderNode.visible = false
+	feedback_label.text = ""
+
+	await get_tree().create_timer(2.0).timeout
+
+	if phone != null:
+		phone.start_ringing()
+
+
+func _on_phone_clicked() -> void:
+	start_tutorial_round()
+
+	if tutorial_manager != null:
+		tutorial_manager.start_tutorial()
 
 
 func collect_available_flowers_from_stand() -> void:
@@ -417,12 +457,13 @@ func _on_submit_pressed() -> void:
 	last_delivery_was_successful = is_full_bouquet_correct()
 
 	if last_delivery_was_successful:
+		successful_bouquets += 1
 		feedback_label.text = "Correct"
 		customer.play_happy_reaction()
 	else:
+		wrong_bouquets += 1
 		customer.play_wrong_reaction()
 
-	# await feedback_effect.effect_finished
 	deliver_bouquet_to_customer()
 
 
@@ -520,10 +561,10 @@ func is_main_bouquet_correct() -> bool:
 		return false
 
 	for i in current_main_order.size():
-		bouquet_ += current_main_order[i] + ", "
+		order += current_main_order[i] + ", "
 
 	for i in bouquet.size():
-		order += current_main_order[i] + ", "
+		bouquet_ += bouquet[i] + ", "
 	print(order)
 	print(bouquet_)
 	return get_flower_counts(bouquet) == get_flower_counts(current_main_order)
@@ -538,11 +579,11 @@ func is_filler_bouquet_correct() -> bool:
 	if bouquet.size() != current_filler_order.size():
 		return false
 
-	for i in current_main_order.size():
-		filler_order+= current_main_order[i] + ", "
+	for i in current_filler_order.size():
+		filler_order += current_filler_order[i] + ", "
 
 	for i in bouquet.size():
-		filler_bouquet_ += current_main_order[i] + ", "
+		filler_bouquet_ += bouquet[i] + ", "
 	
 	print(filler_order)
 	print(filler_bouquet_)
@@ -558,3 +599,12 @@ func is_full_bouquet_correct() -> bool:
 func _on_tutorial_single_flower_removed(_flower_id: String) -> void:
 	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 		tutorial_manager.try_progress_action("remove_single_flower")
+
+
+func end_run() -> void:
+	var summary_text := "Today was not a busy day. You saw 10 customers.\n\n"
+	summary_text += "Successful bouquets: %d\n" % successful_bouquets
+	summary_text += "Wrong bouquets: %d" % wrong_bouquets
+
+	get_tree().set_meta("run_summary_text", summary_text)
+	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")

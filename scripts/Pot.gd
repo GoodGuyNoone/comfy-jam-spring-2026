@@ -11,6 +11,7 @@ signal pot_selected(flower_id, flower_texture, start_global_position, is_filler)
 @onready var pot_sprite: Sprite2D = $PotSprite
 @onready var flower_preview: Sprite2D = $FlowerPreview
 
+
 func _ready() -> void:
 	flower_preview.texture = flower_texture
 	flower_preview.visible = false
