@@ -26,8 +26,8 @@ var delivered_bouquet: Node2D = null
 @onready var moving_flowers = get_parent().get_node("MovingFlowers")
 @onready var orderNode: Node2D = get_parent().get_node("Environment/Order")
 @onready var order_label: Label = get_parent().get_node("Environment/Order/OrderLabel")
-@onready var submit_button: Button = get_parent().get_node("UI/SubmitButton")
-@onready var clear_button: Button = get_parent().get_node("UI/ClearVaseButton")
+@onready var submit_button: TextureButton = get_parent().get_node("UI/SubmitButton")
+@onready var clear_button: TextureButton = get_parent().get_node("UI/ClearButton")
 @onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
 @onready var tutorial_manager: Node2D = $'../TutorialManager'
 @onready var customer = $'../Environment/Customer'
@@ -446,7 +446,7 @@ func _on_submit_pressed() -> void:
 
 			var step: Dictionary = tutorial_manager.get_current_step()
 			if not step.is_empty():
-				tutorial_manager.message_label.text = "That bouquet is wrong. Compare it with the receipt and fix it."
+				tutorial_manager.phone_bubble.show_message("Manager", "That bouquet is wrong. Compare it with the receipt and fix it.")
 
 			submit_button.disabled = false
 			clear_button.disabled = false

@@ -1,0 +1,170 @@
+[gd_scene format=3 uid="uid://dw3r7tasykefw"]
+
+[ext_resource type="Script" uid="uid://bvhl2ioflnacx" path="res://Scripts/PhoneBubble.gd" id="1_tw5m1"]
+[ext_resource type="Texture2D" uid="uid://dio1dwc02ac20" path="res://assets/MainScene/SpeechBubble.png" id="2_u3gri"]
+[ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="3_u3gri"]
+
+[sub_resource type="Animation" id="Animation_4g37c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BubbleSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BubbleSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NextArrow:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(95, 45)]
+}
+
+[sub_resource type="Animation" id="Animation_pq04k"]
+resource_name = "iddle"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BubbleSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NextArrow:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(96, 55), Vector2(96, 56), Vector2(95, 55), Vector2(96, 56), Vector2(95, 55)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BubbleSprite:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.01, 1.01), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ldsw0"]
+resource_name = "show_bubble"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BubbleSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BubbleSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.96, 0.96), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0bwhw"]
+_data = {
+&"RESET": SubResource("Animation_4g37c"),
+&"idle": SubResource("Animation_pq04k"),
+&"show_bubble": SubResource("Animation_ldsw0")
+}
+
+[node name="PhoneBubble" type="Control" unique_id=1423761743]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_tw5m1")
+
+[node name="BubbleSprite" type="TextureRect" parent="." unique_id=130120507]
+layout_mode = 0
+offset_top = -0.6667361
+offset_right = 121.0
+offset_bottom = 76.33327
+texture = ExtResource("2_u3gri")
+
+[node name="SpeakerLabel" type="Label" parent="." unique_id=1316059394]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 55.0
+offset_right = 116.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0.26236048, 0.22252691, 0.29707864, 1)
+theme_override_fonts/font = ExtResource("3_u3gri")
+theme_override_font_sizes/font_size = 10
+text = "asdasdasd"
+
+[node name="MessageLabel" type="Label" parent="." unique_id=1170146249]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 115.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.7529412, 0.7058824, 0.79607844, 1)
+theme_override_constants/line_spacing = -1
+theme_override_fonts/font = ExtResource("3_u3gri")
+theme_override_font_sizes/font_size = 10
+text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+autowrap_mode = 3
+
+[node name="NextArrow" type="Label" parent="." unique_id=1238114178]
+layout_mode = 0
+offset_left = 95.801956
+offset_top = 55.869682
+offset_right = 135.80365
+offset_bottom = 78.86955
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_u3gri")
+theme_override_font_sizes/font_size = 10
+text = ">>"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1841844257]
+libraries/ = SubResource("AnimationLibrary_0bwhw")

@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://bdjtt1e16l67k" path="res://assets/flowers/eucalyptus.png" id="12_1iba3"]
 [ext_resource type="Texture2D" uid="uid://ywh5op5ibm2e" path="res://assets/UI/ArrowDown.png" id="12_3p2gp"]
 [ext_resource type="PackedScene" uid="uid://c1hui8xg6354w" path="res://scenes/Pot.tscn" id="12_bb450"]
-[ext_resource type="Texture2D" uid="uid://cfp44libdq1ip" path="res://assets/Tutorial/ManagerPortrait.png" id="12_cvmbd"]
 [ext_resource type="Script" uid="uid://4hmqo7kouca2" path="res://scripts/Pot.gd" id="13_nfivy"]
 [ext_resource type="Texture2D" uid="uid://b0nyoddqft6ok" path="res://assets/FlowerPots/Rose.png" id="14_fs0b5"]
 [ext_resource type="Script" uid="uid://dfi6b77vswnu3" path="res://scripts/TutorialManager.gd" id="14_mwfav"]
@@ -41,6 +40,7 @@
 [ext_resource type="Texture2D" uid="uid://cigc4w35ur72i" path="res://assets/MainScene/ClearButton.png" id="35_8b871"]
 [ext_resource type="Texture2D" uid="uid://cc58bcgsvgfs2" path="res://assets/MainScene/ClearButtonClicked.png" id="36_pdwbg"]
 [ext_resource type="Texture2D" uid="uid://urh46dudsolj" path="res://assets/MainScene/ClearButtonHover.png" id="37_5grtr"]
+[ext_resource type="PackedScene" uid="uid://dw3r7tasykefw" path="res://scenes/PhoneBubble.tscn" id="38_pdwbg"]
 
 [node name="Main" type="Node2D" unique_id=1415871271]
 
@@ -175,7 +175,6 @@ customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_d
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
 [node name="TutorialLayer" type="Control" parent="UI" unique_id=128188464]
-visible = false
 top_level = true
 layout_mode = 3
 anchors_preset = 15
@@ -184,46 +183,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="MessagePanel" type="Panel" parent="UI/TutorialLayer" unique_id=1051049300]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -100.0
-offset_right = 2.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="SpeakerLabel" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=651456540]
-layout_mode = 0
-offset_left = 523.0
-offset_top = 8.0
-offset_right = 592.0
-offset_bottom = 57.0
-text = "Manager
-"
-
-[node name="MessageLabel" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=662006375]
-layout_mode = 0
-offset_right = 639.0
-offset_bottom = 97.0
-autowrap_mode = 3
-
-[node name="NextArrow" type="Label" parent="UI/TutorialLayer/MessagePanel" unique_id=2129105029]
-layout_mode = 0
-offset_left = 593.0
-offset_top = 70.0
-offset_right = 633.0
-offset_bottom = 93.0
-mouse_filter = 0
-text = ">>"
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/TutorialLayer/MessagePanel" unique_id=331788968]
-position = Vector2(551, 61)
-texture = ExtResource("12_cvmbd")
 
 [node name="HighlightReact" type="ColorRect" parent="UI/TutorialLayer" unique_id=1481109106]
 layout_mode = 0
@@ -237,21 +196,6 @@ color = Color(1, 1, 0, 0.18)
 [node name="PointerArrow" type="Sprite2D" parent="UI/TutorialLayer" unique_id=646377667]
 texture = ExtResource("12_3p2gp")
 
-[node name="SubmitButton" type="Button" parent="UI" unique_id=815645266]
-offset_left = 318.0
-offset_top = 306.0
-offset_right = 395.0
-offset_bottom = 337.0
-text = "Submit
-"
-
-[node name="ClearVaseButton" type="Button" parent="UI" unique_id=985367551]
-offset_left = 402.0
-offset_top = 306.0
-offset_right = 490.0
-offset_bottom = 337.0
-text = "Clear vase"
-
 [node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
 offset_left = 315.0
 offset_top = 53.0
@@ -259,7 +203,7 @@ offset_right = 355.0
 offset_bottom = 76.0
 text = "asd"
 
-[node name="SubmitButton2" type="TextureButton" parent="UI" unique_id=1111380393]
+[node name="SubmitButton" type="TextureButton" parent="UI" unique_id=1111380393]
 offset_left = 367.0
 offset_top = 258.0
 offset_right = 400.0
@@ -277,6 +221,12 @@ offset_bottom = 287.0
 texture_normal = ExtResource("35_8b871")
 texture_pressed = ExtResource("36_pdwbg")
 texture_hover = ExtResource("37_5grtr")
+
+[node name="PhoneBubble" parent="UI" unique_id=1423761743 instance=ExtResource("38_pdwbg")]
+offset_left = 480.0
+offset_top = 117.0
+offset_right = 480.0
+offset_bottom = 117.0
 
 [node name="GameManager" type="Node2D" parent="." unique_id=483342966]
 scale = Vector2(1, 1.00672)

@@ -11,12 +11,9 @@ var steps: Array[Dictionary] = []
 
 @onready var game_manager = get_parent().get_node("GameManager")
 @onready var tutorial_layer: Control = get_parent().get_node("UI/TutorialLayer")
-@onready var message_panel: Panel = $'../UI/TutorialLayer/MessagePanel'
-@onready var speaker_label: Label = $'../UI/TutorialLayer/MessagePanel/SpeakerLabel'
-@onready var message_label: Label = $'../UI/TutorialLayer/MessagePanel/MessageLabel'
-@onready var next_arrow: Label = $'../UI/TutorialLayer/MessagePanel/NextArrow'
 @onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
 @onready var pointer_arrow: Sprite2D = $'../UI/TutorialLayer/PointerArrow'
+@onready var phone_bubble = get_parent().get_node("UI/PhoneBubble")
 
 
 func _ready() -> void:
@@ -26,8 +23,7 @@ func _ready() -> void:
 	highlight_react.visible = false
 	pointer_arrow.visible = false
 
-	message_panel.gui_input.connect(_on_bubble_gui_input)
-	next_arrow.gui_input.connect(_on_next_arrow_gui_input)
+	phone_bubble.bubble_clicked.connect(_on_phone_bubble_clicked)
 
 	if start_with_tutorial:
 		tutorial_active = false
@@ -38,15 +34,33 @@ func _build_steps() -> void:
 		{
 			"id": "intro_1",
 			"speaker": "Manager",
-			"text": "Welcome. I will guide you through your first bouquet.",
+			"text": "Ah, you’re here. Good. Today is your first day.",
 			"mode": "message"
 		},
 		{
 			"id": "intro_2",
 			"speaker": "Manager",
-			"text": "This receipt shows what the customer wants. First place the main flowers.",
+			"text": "Congratulations. You made it in.",
+			"mode": "message"
+		},
+		{
+			"id": "intro_3",
+			"speaker": "Manager",
+			"text": "I’ll guide you through your first bouquet. Pay attention.",
+			"mode": "message"
+		},
+		{
+			"id": "intro_4",
+			"speaker": "Manager",
+			"text": "This receipt shows what the customer wants.",
 			"mode": "message",
 			"highlight_target": "Environment/Order/OrderNote/Highlight"
+		},
+		{
+			"id": "intro_5",
+			"speaker": "Manager",
+			"text": "We always start with the main flowers at the top.",
+			"mode": "message"
 		},
 		{
 			"id": "pick_main",
@@ -59,7 +73,7 @@ func _build_steps() -> void:
 		{
 			"id": "complete_main_count",
 			"speaker": "Manager",
-			"text": "Good. Place the remaining required main flowers into the vase.",
+			"text": "Now finish placing all required main flowers.",
 			"mode": "wait_action",
 			"action": "complete_main_count",
 			"highlight_target": "Environment/Vase/Highlight"
@@ -67,15 +81,20 @@ func _build_steps() -> void:
 		{
 			"id": "remove_one_flower",
 			"speaker": "Manager",
-			"text": "If you make a mistake, click a flower in the vase to remove it.",
+			"text": "If you make a mistake - click a flower in the vase to remove it.",
 			"mode": "wait_action",
-			"action": "remove_single_flower",
-			# "highlight_target": "Vase"
+			"action": "remove_single_flower"
+		},
+		{
+			"id": "clear_vase_info_1",
+			"speaker": "Manager",
+			"text": "If things get messy, start over.",
+			"mode": "message"
 		},
 		{
 			"id": "clear_vase_info",
 			"speaker": "Manager",
-			"text": "You can also reset the whole bouquet with the Clear Vase button.",
+			"text": "Use the Clear Vase button to reset everything.",
 			"mode": "wait_action",
 			"action": "clear_vase",
 			"highlight_target": "UI/ClearButton"
@@ -85,13 +104,24 @@ func _build_steps() -> void:
 			"speaker": "Manager",
 			"text": "Now place the main flowers again.",
 			"mode": "wait_action",
-			"action": "complete_main_count",
-			# "highlight_target": "Vase"
+			"action": "complete_main_count"
+		},
+		{
+			"id": "unlock_fillers_1",
+			"speaker": "Manager",
+			"text": "Good. Now we move to fillers.",
+			"mode": "message"
+		},
+		{
+			"id": "unlock_fillers_2",
+			"speaker": "Manager",
+			"text": "They complete the bouquet.",
+			"mode": "message"
 		},
 		{
 			"id": "pick_fillers",
 			"speaker": "Manager",
-			"text": "Now fillers are unlocked. Pick a filler flower.",
+			"text": "Pick a filler flower.",
 			"mode": "wait_action",
 			"action": "pick_filler",
 			"highlight_target": "FlowerStand"
@@ -99,38 +129,54 @@ func _build_steps() -> void:
 		{
 			"id": "complete_filler_count",
 			"speaker": "Manager",
-			"text": "Place the required filler flowers.",
+			"text": "Place all required filler flowers.",
 			"mode": "wait_action",
-			"action": "complete_filler_count",
-			# "highlight_target": "Vase"
+			"action": "complete_filler_count"
+		},
+		{
+			"id": "submit_info_1",
+			"speaker": "Manager",
+			"text": "Check the order carefully.",
+			"mode": "message"
 		},
 		{
 			"id": "submit_info",
 			"speaker": "Manager",
-			"text": "When the bouquet is complete, press submit.",
+			"text": "When everything is correct, press Submit.",
 			"mode": "wait_action",
 			"action": "submit_bouquet",
 			"highlight_target": "UI/SubmitButton"
 		},
 		{
-			"id": "done",
+			"id": "done_1",
 			"speaker": "Manager",
-			"text": "Good. You are ready to work on your own now. Today is not a busy day. You will saw 10 customers",
+			"text": "That’s it.",
 			"mode": "message"
 		},
+		{
+			"id": "done_2",
+			"speaker": "Manager",
+			"text": "You’re ready to work on your own.",
+			"mode": "message"
+		},
+		{
+			"id": "done_3",
+			"speaker": "Manager",
+			"text": "Today will be quiet. Only ten customers.",
+			"mode": "message"
+		},
+		{
+			"id": "done_4",
+			"speaker": "Manager",
+			"text": "Don’t keep them waiting.",
+			"mode": "message"
+		}
 	]
 
 
-func _on_bubble_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if can_continue_message():
-			next_message_step()
-
-
-func _on_next_arrow_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if can_continue_message():
-			next_message_step()
+func _on_phone_bubble_clicked() -> void:
+	if can_continue_message():
+		next_message_step()
 
 
 func start_tutorial() -> void:
@@ -145,6 +191,7 @@ func finish_tutorial() -> void:
 	tutorial_layer.visible = false
 	highlight_react.visible = false
 	pointer_arrow.visible = false
+	phone_bubble.hide_bubble()
 	tutorial_finished.emit()
 
 
@@ -170,8 +217,10 @@ func _show_current_step() -> void:
 
 	var step := steps[current_step_index]
 
-	speaker_label.text = step.get("speaker", "")
-	message_label.text = step.get("text", "")
+	var speaker: String = step.get("speaker", "")
+	var text: String = step.get("text", "")
+
+	phone_bubble.show_message(speaker, text)
 
 	highlight_react.visible = false
 	pointer_arrow.visible = false
@@ -193,7 +242,7 @@ func next_message_step() -> void:
 	if step.get("mode", "") != "message":
 		return
 	
-	if step.get("id", "") == "intro_1":
+	if step.get("id", "") == "intro_3":
 		var gm = get_tree().current_scene.get_node("GameManager")
 		gm.orderNode.visible = true
 
@@ -217,6 +266,7 @@ func try_progress_action(action_name: String) -> void:
 
 	current_step_index += 1
 	_show_current_step()
+
 
 func _show_highlight_for_path(node_path: String) -> void:
 	var target = get_parent().get_node_or_null(node_path)
