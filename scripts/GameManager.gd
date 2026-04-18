@@ -71,6 +71,9 @@ func _ready() -> void:
 	successful_bouquets = 0
 	wrong_bouquets = 0
 
+	submit_button.disabled = true
+	clear_button.disabled = true
+
 	if tutorial_manager != null and tutorial_manager.start_with_tutorial:
 		call_deferred("_start_phone_intro_sequence")
 	else:

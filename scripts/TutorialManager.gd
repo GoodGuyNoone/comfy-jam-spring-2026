@@ -29,6 +29,7 @@ func _ready() -> void:
 		tutorial_active = false
 		tutorial_layer.visible = false
 
+
 func _build_steps() -> void:
 	steps = [
 		{
@@ -221,6 +222,14 @@ func _show_current_step() -> void:
 	var text: String = step.get("text", "")
 
 	phone_bubble.show_message(speaker, text)
+
+	var gm = get_tree().current_scene.get_node("GameManager")
+
+	if step.get("action", "") == "clear_vase":
+		gm.clear_button.disabled = false
+
+	if step.get("action", "") == "submit_bouquet":
+		gm.submit_button.disabled = false
 
 	highlight_react.visible = false
 	pointer_arrow.visible = false
