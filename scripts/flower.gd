@@ -14,6 +14,8 @@ signal vase_hover_exited(flower_node)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var outline: Node2D = $Outline
+@onready var collision_main: CollisionShape2D = $CollisionMain
+@onready var collision_filler: CollisionShape2D = $CollisionFiller
 
 var is_selected_for_removal: bool = false
 
@@ -35,6 +37,9 @@ func setup(id: String, tex: Texture2D, pickable: bool, removable: bool, filler: 
 	can_be_picked = pickable
 	can_be_removed = removable
 	is_filler = filler
+
+	collision_main.disabled = is_filler
+	collision_filler.disabled = not is_filler
 
 	if is_inside_tree():
 		_apply_visuals()

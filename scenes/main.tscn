@@ -58,64 +58,81 @@ script = ExtResource("13_nfivy")
 flower_id = "rose"
 flower_texture = ExtResource("2_vcsgt")
 pot_texture = ExtResource("14_fs0b5")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot2" parent="Environment/FlowerStand/Pots" unique_id=1114765108 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(159, 114)
 script = ExtResource("13_nfivy")
 flower_id = "eucalyptus"
 flower_texture = ExtResource("12_1iba3")
 is_filler = true
 pot_texture = ExtResource("15_ma7h6")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot3" parent="Environment/FlowerStand/Pots" unique_id=215818770 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(220, 308)
 script = ExtResource("13_nfivy")
 flower_id = "iris"
 flower_texture = ExtResource("5_mwfav")
 pot_texture = ExtResource("16_e2s0e")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot4" parent="Environment/FlowerStand/Pots" unique_id=1917653667 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(216, 108)
 script = ExtResource("13_nfivy")
 flower_id = "cala lily"
 flower_texture = ExtResource("6_3p2gp")
 pot_texture = ExtResource("17_gsxep")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot5" parent="Environment/FlowerStand/Pots" unique_id=1810785698 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(157, 216)
 script = ExtResource("13_nfivy")
 flower_id = "daisy"
 flower_texture = ExtResource("7_cvmbd")
 pot_texture = ExtResource("18_v0vrg")
+outline_color = Color(0.2520276, 0.25202766, 0.25202763, 1)
 
 [node name="Pot6" parent="Environment/FlowerStand/Pots" unique_id=1555958163 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(89, 306)
 script = ExtResource("13_nfivy")
 flower_id = "lily"
 flower_texture = ExtResource("8_ft6cd")
 pot_texture = ExtResource("19_dg70y")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot7" parent="Environment/FlowerStand/Pots" unique_id=477984247 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(93, 110)
 script = ExtResource("13_nfivy")
 flower_id = "ruscus"
 flower_texture = ExtResource("9_bb450")
 is_filler = true
 pot_texture = ExtResource("20_pnhog")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot8" parent="Environment/FlowerStand/Pots" unique_id=1091531480 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(93, 213)
 script = ExtResource("13_nfivy")
 flower_id = "peony"
 flower_texture = ExtResource("10_nfivy")
 pot_texture = ExtResource("21_2c4at")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot9" parent="Environment/FlowerStand/Pots" unique_id=1949760803 instance=ExtResource("12_bb450")]
+z_index = 1
 position = Vector2(155, 307)
 script = ExtResource("13_nfivy")
 flower_id = "gerbera"
 flower_texture = ExtResource("11_1nqs0")
 pot_texture = ExtResource("22_g6wdg")
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Highlight" type="Control" parent="Environment/FlowerStand" unique_id=847603701]
 layout_mode = 3
@@ -186,13 +203,6 @@ color = Color(1, 1, 0, 0.18)
 
 [node name="PointerArrow" type="Sprite2D" parent="UI/TutorialLayer" unique_id=646377667]
 texture = ExtResource("12_3p2gp")
-
-[node name="FeedbackLabel" type="Label" parent="UI" unique_id=2029746365]
-offset_left = 315.0
-offset_top = 53.0
-offset_right = 355.0
-offset_bottom = 76.0
-text = "asd"
 
 [node name="SubmitButton" type="TextureButton" parent="UI" unique_id=1111380393]
 offset_left = 370.0

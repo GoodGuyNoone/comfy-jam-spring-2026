@@ -7,6 +7,9 @@
 radius = 6.0
 height = 26.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sae6b"]
+size = Vector2(20, 60)
+
 [node name="Flower" type="Area2D" unique_id=1026794971]
 script = ExtResource("1_sae6b")
 
@@ -15,10 +18,15 @@ texture_filter = 1
 position = Vector2(0, -20)
 texture = ExtResource("2_sae6b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2016913469]
+[node name="CollisionMain" type="CollisionShape2D" parent="." unique_id=2016913469]
 position = Vector2(0, -41)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_sae6b")
+
+[node name="CollisionFiller" type="CollisionShape2D" parent="." unique_id=1479116241]
+position = Vector2(1, -55)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_sae6b")
 
 [node name="Outline" type="Node2D" parent="." unique_id=2055489280]
 z_index = -1

@@ -193,6 +193,7 @@ func finish_tutorial() -> void:
 	highlight_react.visible = false
 	pointer_arrow.visible = false
 	phone_bubble.hide_bubble()
+	start_with_tutorial = false
 	tutorial_finished.emit()
 
 

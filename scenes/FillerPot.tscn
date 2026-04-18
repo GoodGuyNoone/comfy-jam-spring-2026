@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://c1hui8xg6354w"]
+[gd_scene format=3 uid="uid://d0lay24v5aqd5"]
 
-[ext_resource type="Texture2D" uid="uid://hkeutxe631r4" path="res://assets/FlowerPots/Peony.png" id="1_ynmsd"]
-[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/flowers/peony.png" id="2_gpnl5"]
+[ext_resource type="Texture2D" uid="uid://hkeutxe631r4" path="res://assets/FlowerPots/Peony.png" id="1_i4qkc"]
+[ext_resource type="Texture2D" uid="uid://bniu3crbbiyqj" path="res://assets/flowers/peony.png" id="2_ew1tt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ynmsd"]
 size = Vector2(56, 70)
@@ -10,7 +10,7 @@ size = Vector2(56, 70)
 
 [node name="PotSprite" type="Sprite2D" parent="." unique_id=788081919]
 position = Vector2(0, -35)
-texture = ExtResource("1_ynmsd")
+texture = ExtResource("1_i4qkc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1620834466]
 position = Vector2(0, -35)
@@ -19,13 +19,13 @@ shape = SubResource("RectangleShape2D_ynmsd")
 [node name="FlowerPreview" type="Sprite2D" parent="." unique_id=523539645]
 z_index = 1
 position = Vector2(0, -32)
-texture = ExtResource("2_gpnl5")
+texture = ExtResource("2_ew1tt")
 
 [node name="Outline" type="Node2D" parent="." unique_id=1442149489]
 position = Vector2(0, -35)
 
 [node name="O_Left" type="Sprite2D" parent="Outline" unique_id=1794429958]
-texture = ExtResource("1_ynmsd")
+texture = ExtResource("1_i4qkc")
 
 [node name="O_Right" type="Sprite2D" parent="Outline" unique_id=658246943]
 

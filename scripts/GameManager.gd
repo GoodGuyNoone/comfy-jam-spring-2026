@@ -28,7 +28,6 @@ var delivered_bouquet: Node2D = null
 @onready var order_label: Label = get_parent().get_node("Environment/Order/OrderLabel")
 @onready var submit_button: TextureButton = get_parent().get_node("UI/SubmitButton")
 @onready var clear_button: TextureButton = get_parent().get_node("UI/ClearButton")
-@onready var feedback_label: Label = get_parent().get_node("UI/FeedbackLabel")
 @onready var tutorial_manager: Node2D = $'../TutorialManager'
 @onready var customer = $'../Environment/Customer'
 @onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
@@ -62,11 +61,6 @@ func _ready() -> void:
 
 	collect_available_flowers_from_stand()
 
-	
-	print("Phone local position:", phone.position)
-	print("Phone global position:", phone.global_position)
-	print("Phone parent:", phone.get_parent().name)
-
 	order_index = 0
 	successful_bouquets = 0
 	wrong_bouquets = 0
@@ -81,7 +75,6 @@ func _ready() -> void:
 
 
 
-
 func start_customer_round() -> void:
 	print("order: ", order_index)
 	round_active = false
@@ -92,7 +85,9 @@ func start_customer_round() -> void:
 	generate_current_order_by_progression()
 
 	submit_button.disabled = true
-	feedback_label.text = ""
+
+	submit_button.disabled = false
+	clear_button.disabled = false
 
 	refresh_phase_state()
 	update_receipt_ui()
@@ -111,14 +106,12 @@ func start_tutorial_round() -> void:
 	vase.clear_vase()
 	generate_current_order_by_progression()
 
-	feedback_label.text = ""
 	refresh_phase_state()
 	update_receipt_ui()
 	update_submit_state()
 
 
 func _on_tutorial_finished() -> void:
-	feedback_label.text = ""
 
 	orderNode.visible = false
 	submit_button.disabled = false
@@ -228,7 +221,6 @@ func _start_phone_intro_sequence() -> void:
 	customer.hide_customer()
 	vase.clear_vase()
 	orderNode.visible = false
-	feedback_label.text = ""
 
 	await get_tree().create_timer(2.0).timeout
 
@@ -359,23 +351,20 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	refresh_phase_state()
 
 	if current_phase == "main" and is_filler:
-		feedback_label.text = "Place main flowers first"
 		return
 
 	if current_phase == "filler" and not is_filler:
-		feedback_label.text = "Main flowers already filled"
 		return
 
 	if not vase.has_free_slot_for_phase(current_phase):
-		feedback_label.text = "No free slots for this phase"
 		return
 
 	is_animating = true
-	feedback_label.text = ""
 
 	var flower_instance = flower_scene.instantiate()
 	moving_flowers.add_child(flower_instance)
 	flower_instance.setup(flower_id, flower_texture, false, false, is_filler)
+	flower_instance.z_index = 2
 	flower_instance.global_position = start_global_position
 	flower_instance.scale = Vector2(0.9, 0.9)
 
@@ -437,16 +426,12 @@ func _on_submit_pressed() -> void:
 	refresh_phase_state()
 
 	if not is_full_bouquet_built():
-		feedback_label.text = "Bouquet is not complete yet"
 		return
 
 	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 		if is_full_bouquet_correct():
-			feedback_label.text = "Correct"
 			tutorial_manager.try_progress_action("submit_bouquet")
 		else:
-			feedback_label.text = "Wrong"
-
 			var step: Dictionary = tutorial_manager.get_current_step()
 			if not step.is_empty():
 				tutorial_manager.phone_bubble.show_message("Manager", "That bouquet is wrong. Compare it with the receipt and fix it.")
@@ -461,7 +446,6 @@ func _on_submit_pressed() -> void:
 
 	if last_delivery_was_successful:
 		successful_bouquets += 1
-		feedback_label.text = "Correct"
 		customer.play_happy_reaction()
 	else:
 		wrong_bouquets += 1
@@ -478,8 +462,6 @@ func _on_clear_pressed() -> void:
 		return
 
 	vase.clear_vase()
-	feedback_label.text = ""
-
 	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 		tutorial_manager.try_progress_action("clear_vase")
 
