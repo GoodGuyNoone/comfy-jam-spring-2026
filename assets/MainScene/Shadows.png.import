@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://31jkk4e4b7rr"
-path="res://.godot/imported/Fon.png-12e446c1cd5c1bdceb9334e4d53e2f17.ctex"
+uid="uid://b7r8egq26lckk"
+path="res://.godot/imported/Shadows.png-cfc91fefc1c049b66b466434aaf098be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/MainScene/Fon.png"
-dest_files=["res://.godot/imported/Fon.png-12e446c1cd5c1bdceb9334e4d53e2f17.ctex"]
+source_file="res://assets/MainScene/Shadows.png"
+dest_files=["res://.godot/imported/Shadows.png-cfc91fefc1c049b66b466434aaf098be.ctex"]
 
 [params]
 

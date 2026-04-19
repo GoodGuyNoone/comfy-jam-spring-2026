@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfp44libdq1ip"
-path="res://.godot/imported/ManagerPortrait.png-40c6115ff3b19c0dd6b71ccf5843c4c3.ctex"
+uid="uid://bh74ox4q4xr7w"
+path="res://.godot/imported/MainMenu.png-2ef29ec930751a6b98e43cc0d4e58f43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tutorial/ManagerPortrait.png"
-dest_files=["res://.godot/imported/ManagerPortrait.png-40c6115ff3b19c0dd6b71ccf5843c4c3.ctex"]
+source_file="res://assets/MainMenu/MainMenu.png"
+dest_files=["res://.godot/imported/MainMenu.png-2ef29ec930751a6b98e43cc0d4e58f43.ctex"]
 
 [params]
 

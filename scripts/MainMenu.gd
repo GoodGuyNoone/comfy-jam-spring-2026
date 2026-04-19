@@ -3,8 +3,8 @@ extends Control
 @export var game_scene: PackedScene
 
 @onready var summary_label: Label = $VBoxContainer/SummaryLabel
-@onready var start_button: Button = $VBoxContainer/StartButton
-@onready var exit_button: Button = $VBoxContainer/ExitButton
+@onready var start_button: TextureButton = $VBoxContainer/StartButton
+@onready var exit_button: TextureButton = $VBoxContainer/ExitButton
 
 
 func _ready() -> void:

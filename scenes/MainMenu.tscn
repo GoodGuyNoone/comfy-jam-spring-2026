@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://big2rqychod46" path="res://scripts/MainMenu.gd" id="1_yqorp"]
 [ext_resource type="PackedScene" uid="uid://c77pklvidmtbi" path="res://scenes/Main.tscn" id="2_0ykhv"]
+[ext_resource type="Texture2D" uid="uid://bh74ox4q4xr7w" path="res://assets/MainMenu/MainMenu.png" id="3_ow34m"]
+[ext_resource type="Texture2D" uid="uid://dbp7wmefutfud" path="res://assets/MainMenu/PinkButton.png" id="4_l72w3"]
+[ext_resource type="Texture2D" uid="uid://cao1qjkl6cdjx" path="res://assets/MainMenu/PinkAlfalButton.png" id="5_ucygd"]
+[ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="6_8a8k8"]
+[ext_resource type="Texture2D" uid="uid://ddepypcweydms" path="res://assets/MainMenu/PurpleButton.png" id="7_mipys"]
+[ext_resource type="Texture2D" uid="uid://do2rh2w7ah5s8" path="res://assets/MainMenu/PurpleAlfalButton.png" id="8_mipys"]
 
 [node name="MainMenu" type="Control" unique_id=1518839107]
 layout_mode = 3
@@ -9,11 +15,9 @@ anchors_preset = 0
 script = ExtResource("1_yqorp")
 game_scene = ExtResource("2_0ykhv")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1105725425]
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(1, 1, 1, 0.75900006)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734302936]
+texture = ExtResource("3_ow34m")
+centered = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1665275009]
 layout_mode = 1
@@ -36,12 +40,40 @@ visible = false
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer" unique_id=1625134630]
+[node name="StartButton" type="TextureButton" parent="VBoxContainer" unique_id=271945397]
 layout_mode = 2
-text = "Start game
-"
+texture_normal = ExtResource("4_l72w3")
+texture_pressed = ExtResource("5_ucygd")
 
-[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1424764661]
+[node name="Text" type="Label" parent="VBoxContainer/StartButton" unique_id=1028729091]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 89.0
+offset_bottom = 31.0
+theme_override_colors/font_outline_color = Color(0.4862745, 0.21960784, 0.41960785, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_8a8k8")
+theme_override_font_sizes/font_size = 18
+text = "Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=810950991]
 layout_mode = 2
-text = "Exit
-"
+texture_normal = ExtResource("7_mipys")
+texture_pressed = ExtResource("8_mipys")
+
+[node name="Text" type="Label" parent="VBoxContainer/ExitButton" unique_id=768420739]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 89.0
+offset_bottom = 31.0
+theme_override_colors/font_outline_color = Color(0.4862745, 0.21960784, 0.41960785, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_8a8k8")
+theme_override_font_sizes/font_size = 18
+text = "Exit"
+horizontal_alignment = 1
+vertical_alignment = 1

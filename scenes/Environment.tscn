@@ -1,19 +1,24 @@
 [gd_scene format=3 uid="uid://bj7usuqw2uf3s"]
 
-[ext_resource type="Texture2D" uid="uid://31jkk4e4b7rr" path="res://assets/MainScene/Fon.png" id="1_py72o"]
+[ext_resource type="Texture2D" uid="uid://fuvwfhggs7qw" path="res://assets/MainScene/Floor.png" id="1_py72o"]
 [ext_resource type="Texture2D" uid="uid://c8xn4xxmqfdpn" path="res://assets/MainScene/Table.png" id="2_xn25y"]
 [ext_resource type="PackedScene" uid="uid://dvr7scg6i6ivr" path="res://scenes/Shelf.tscn" id="3_7rjrx"]
+[ext_resource type="Texture2D" uid="uid://b7r8egq26lckk" path="res://assets/MainScene/Shadows.png" id="3_py72o"]
 
 [node name="Environment" type="Node" unique_id=2107434039]
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=524625226]
-position = Vector2(320, 332)
+z_index = -2
 texture = ExtResource("1_py72o")
+centered = false
 
 [node name="Table" type="Sprite2D" parent="." unique_id=2056253569]
-z_index = 4
 position = Vector2(487, 299)
 texture = ExtResource("2_xn25y")
 
+[node name="Add" type="Sprite2D" parent="." unique_id=128750668]
+texture = ExtResource("3_py72o")
+centered = false
+
 [node name="Shelf" parent="." unique_id=736557770 instance=ExtResource("3_7rjrx")]
-position = Vector2(154, 172)
+position = Vector2(160, 172)

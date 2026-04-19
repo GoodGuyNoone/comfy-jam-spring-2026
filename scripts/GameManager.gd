@@ -30,7 +30,6 @@ var delivered_bouquet: Node2D = null
 @onready var clear_button: TextureButton = get_parent().get_node("UI/ClearButton")
 @onready var tutorial_manager: Node2D = $'../TutorialManager'
 @onready var customer = $'../Environment/Customer'
-@onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
 @onready var phone = get_parent().get_node("Environment/Phone")
 
 
@@ -121,8 +120,9 @@ func _on_tutorial_finished() -> void:
 
 
 func tutorial_blocks_pick(is_filler: bool) -> bool:
-	if tutorial_manager == null or not tutorial_manager.is_tutorial_active():
-		return false
+	print("tutorial_active:", tutorial_manager.is_tutorial_active(), " completed:", tutorial_manager.tutorial_completed)
+	if tutorial_manager != null and tutorial_manager.start_with_tutorial and not tutorial_manager.is_tutorial_active() and not tutorial_manager.tutorial_completed:
+		return true
 	
 	var step: Dictionary = tutorial_manager.get_current_step()
 	if step.is_empty():
@@ -364,7 +364,7 @@ func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_glo
 	var flower_instance = flower_scene.instantiate()
 	moving_flowers.add_child(flower_instance)
 	flower_instance.setup(flower_id, flower_texture, false, false, is_filler)
-	flower_instance.z_index = 2
+	flower_instance.z_index = 5
 	flower_instance.global_position = start_global_position
 	flower_instance.scale = Vector2(0.9, 0.9)
 
@@ -430,16 +430,15 @@ func _on_submit_pressed() -> void:
 
 	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 		if is_full_bouquet_correct():
-			tutorial_manager.try_progress_action("submit_bouquet")
+			tutorial_manager.finish_tutorial()
 		else:
 			var step: Dictionary = tutorial_manager.get_current_step()
 			if not step.is_empty():
 				tutorial_manager.phone_bubble.show_message("Manager", "That bouquet is wrong. Compare it with the receipt and fix it.")
+				tutorial_manager.pointer_arrow.visible = false
 
 			submit_button.disabled = false
 			clear_button.disabled = false
-			highlight_react.visible = false
-
 		return
 
 	last_delivery_was_successful = is_full_bouquet_correct()
@@ -501,7 +500,8 @@ func deliver_bouquet_to_customer() -> void:
 		vase.flowers_container.remove_child(flower)
 		flowers_root.add_child(flower)
 		flower.global_position = global_pos
-
+	
+	delivered_bouquet.z_index = 5
 	delivered_bouquet.play_delivery()
 	await delivered_bouquet.delivery_animation_finished
 

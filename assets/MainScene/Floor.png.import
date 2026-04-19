@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr4ucwruvbxn"
-path="res://.godot/imported/bubbleheart.png-223446814f37ab173cd17ea963c2f70d.ctex"
+uid="uid://fuvwfhggs7qw"
+path="res://.godot/imported/Floor.png-cb51387ee04e49753b7c8d4e7c54185c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/bubbleheart.png"
-dest_files=["res://.godot/imported/bubbleheart.png-223446814f37ab173cd17ea963c2f70d.ctex"]
+source_file="res://assets/MainScene/Floor.png"
+dest_files=["res://.godot/imported/Floor.png-cb51387ee04e49753b7c8d4e7c54185c.ctex"]
 
 [params]
 

@@ -32,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://rgc3u256yx7y" path="res://assets/UI/OrderNote.png" id="26_dg70y"]
 [ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="27_pnhog"]
 [ext_resource type="PackedScene" uid="uid://c8b2tfdd2x46d" path="res://scenes/Customer.tscn" id="29_e2s0e"]
+[ext_resource type="FontFile" uid="uid://drrrtvdkx3oew" path="res://assets/UI/AsepriteFont.ttf" id="30_pdwbg"]
 [ext_resource type="Texture2D" uid="uid://og1qgtme7j1k" path="res://assets/MainScene/Girl.png" id="30_v0vrg"]
 [ext_resource type="Texture2D" uid="uid://d0sv66omoyvvn" path="res://assets/MainScene/Boy.png" id="31_dg70y"]
 [ext_resource type="Texture2D" uid="uid://bxi1tasic0bs1" path="res://assets/MainScene/SubmitButton.png" id="32_cobve"]
@@ -42,11 +43,49 @@
 [ext_resource type="Texture2D" uid="uid://urh46dudsolj" path="res://assets/MainScene/ClearButtonHover.png" id="37_5grtr"]
 [ext_resource type="PackedScene" uid="uid://dw3r7tasykefw" path="res://scenes/PhoneBubble.tscn" id="38_pdwbg"]
 
+[sub_resource type="Animation" id="Animation_8b871"]
+resource_name = "Hover"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 2), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pdwbg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5grtr"]
+_data = {
+&"Hover": SubResource("Animation_8b871"),
+&"RESET": SubResource("Animation_pdwbg")
+}
+
 [node name="Main" type="Node2D" unique_id=1415871271]
 
 [node name="Environment" parent="." unique_id=2107434039 instance=ExtResource("1_fs0b5")]
 
 [node name="FlowerStand" type="Node2D" parent="Environment" unique_id=707425049]
+position = Vector2(6, 0)
 
 [node name="Pots" type="Node2D" parent="Environment/FlowerStand" unique_id=2058638059]
 script = ExtResource("1_vcsgt")
@@ -83,7 +122,7 @@ outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 z_index = 1
 position = Vector2(216, 108)
 script = ExtResource("13_nfivy")
-flower_id = "cala lily"
+flower_id = "calla lily"
 flower_texture = ExtResource("6_3p2gp")
 pot_texture = ExtResource("17_gsxep")
 outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
@@ -99,7 +138,7 @@ outline_color = Color(0.2520276, 0.25202766, 0.25202763, 1)
 
 [node name="Pot6" parent="Environment/FlowerStand/Pots" unique_id=1555958163 instance=ExtResource("12_bb450")]
 z_index = 1
-position = Vector2(89, 306)
+position = Vector2(92, 306)
 script = ExtResource("13_nfivy")
 flower_id = "lily"
 flower_texture = ExtResource("8_ft6cd")
@@ -127,58 +166,166 @@ outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="Pot9" parent="Environment/FlowerStand/Pots" unique_id=1949760803 instance=ExtResource("12_bb450")]
 z_index = 1
-position = Vector2(155, 307)
+position = Vector2(157, 307)
 script = ExtResource("13_nfivy")
 flower_id = "gerbera"
 flower_texture = ExtResource("11_1nqs0")
 pot_texture = ExtResource("22_g6wdg")
 outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
-[node name="Highlight" type="Control" parent="Environment/FlowerStand" unique_id=847603701]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 48.0
-offset_top = 8.0
-offset_right = 181.0
-offset_bottom = 336.0
-mouse_filter = 2
-
 [node name="Vase" parent="Environment" unique_id=1972029331 instance=ExtResource("15_cvmbd")]
+z_index = 5
 position = Vector2(426, 196)
 
 [node name="Order" type="Node2D" parent="Environment" unique_id=305552183]
 z_index = -1
-position = Vector2(414, 87)
+position = Vector2(430, 76)
 
 [node name="OrderNote" type="Sprite2D" parent="Environment/Order" unique_id=203985848]
+z_index = 1
 position = Vector2(-4, -5)
 texture = ExtResource("26_dg70y")
 
-[node name="Highlight" type="Control" parent="Environment/Order/OrderNote" unique_id=126103553]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -47.0
-offset_top = -62.0
-offset_right = 48.0
-offset_bottom = 63.0
-
 [node name="OrderLabel" type="Label" parent="Environment/Order" unique_id=1315127865]
+z_index = 3
 offset_left = -43.0
 offset_top = -62.0
 offset_right = 38.0
 offset_bottom = 53.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("27_pnhog")
 theme_override_font_sizes/font_size = 10
+text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="MainFlowersMark" type="Marker2D" parent="Environment/Order" unique_id=250501225]
+position = Vector2(-2, -71)
+
+[node name="FillersFlowersMark" type="Marker2D" parent="Environment/Order" unique_id=1060239154]
+position = Vector2(-2, -4)
 
 [node name="Phone" parent="Environment" unique_id=1880114112 instance=ExtResource("24_g6wdg")]
 z_index = 4
-position = Vector2(583, 251)
+position = Vector2(598, 245)
 
 [node name="Customer" parent="Environment" unique_id=617086023 instance=ExtResource("29_e2s0e")]
 z_index = -1
 position = Vector2(1.1920929e-07, -97.00001)
 customer_textures = Array[Texture2D]([ExtResource("30_v0vrg"), ExtResource("31_dg70y")])
+
+[node name="FlowerNames" type="Node2D" parent="Environment" unique_id=1635624972]
+position = Vector2(6, 0)
+
+[node name="Label" type="Label" parent="Environment/FlowerNames" unique_id=1418564619]
+offset_left = 70.0
+offset_top = 120.0
+offset_right = 115.0
+offset_bottom = 143.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Ruscus"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Environment/FlowerNames" unique_id=37773468]
+offset_left = 134.0
+offset_top = 120.0
+offset_right = 179.0
+offset_bottom = 143.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Eucalyptus"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Environment/FlowerNames" unique_id=991679617]
+offset_left = 196.0
+offset_top = 120.0
+offset_right = 241.0
+offset_bottom = 143.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Calla lily"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="Environment/FlowerNames" unique_id=930827836]
+offset_left = 70.0
+offset_top = 213.0
+offset_right = 115.0
+offset_bottom = 236.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Peony"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="Environment/FlowerNames" unique_id=1544856562]
+offset_left = 134.0
+offset_top = 213.0
+offset_right = 179.0
+offset_bottom = 236.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Daisy"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="Environment/FlowerNames" unique_id=51894422]
+offset_left = 196.0
+offset_top = 213.0
+offset_right = 241.0
+offset_bottom = 236.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Rose"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="Environment/FlowerNames" unique_id=1281787094]
+offset_left = 70.0
+offset_top = 318.0
+offset_right = 115.0
+offset_bottom = 341.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Lily"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="Environment/FlowerNames" unique_id=308870239]
+offset_left = 134.0
+offset_top = 318.0
+offset_right = 179.0
+offset_bottom = 341.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Gerbera"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="Environment/FlowerNames" unique_id=443496627]
+offset_left = 196.0
+offset_top = 318.0
+offset_right = 241.0
+offset_bottom = 341.0
+theme_override_colors/font_outline_color = Color(0.3254902, 0.19215687, 0.3529412, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("30_pdwbg")
+theme_override_font_sizes/font_size = 16
+text = "Iris"
+horizontal_alignment = 1
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1373638070]
 
@@ -192,17 +339,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HighlightReact" type="ColorRect" parent="UI/TutorialLayer" unique_id=1481109106]
-layout_mode = 0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 33.0
-offset_bottom = 31.0
-mouse_filter = 2
-color = Color(1, 1, 0, 0.18)
-
 [node name="PointerArrow" type="Sprite2D" parent="UI/TutorialLayer" unique_id=646377667]
 texture = ExtResource("12_3p2gp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/TutorialLayer/PointerArrow" unique_id=1186773171]
+libraries/ = SubResource("AnimationLibrary_5grtr")
 
 [node name="SubmitButton" type="TextureButton" parent="UI" unique_id=1111380393]
 offset_left = 370.0
@@ -214,6 +355,9 @@ texture_pressed = ExtResource("33_cmqll")
 texture_hover = ExtResource("34_8cp6k")
 ignore_texture_size = true
 
+[node name="TutorialMark" type="Marker2D" parent="UI/SubmitButton" unique_id=789535700]
+position = Vector2(27, -10)
+
 [node name="ClearButton" type="TextureButton" parent="UI" unique_id=2010979310]
 offset_left = 447.0
 offset_top = 256.0
@@ -222,6 +366,9 @@ offset_bottom = 284.0
 texture_normal = ExtResource("35_8b871")
 texture_pressed = ExtResource("36_pdwbg")
 texture_hover = ExtResource("37_5grtr")
+
+[node name="TutorialMark" type="Marker2D" parent="UI/ClearButton" unique_id=1327502484]
+position = Vector2(27, -10)
 
 [node name="PhoneBubble" parent="UI" unique_id=1423761743 instance=ExtResource("38_pdwbg")]
 offset_left = 480.0

@@ -5,23 +5,23 @@ signal tutorial_finished
 @export var start_with_tutorial: bool = true
 
 var tutorial_active: bool = false
+var tutorial_completed: bool = false
 var current_step_index: int = 0
-
 var steps: Array[Dictionary] = []
 
 @onready var game_manager = get_parent().get_node("GameManager")
 @onready var tutorial_layer: Control = get_parent().get_node("UI/TutorialLayer")
-@onready var highlight_react: ColorRect = $'../UI/TutorialLayer/HighlightReact'
 @onready var pointer_arrow: Sprite2D = $'../UI/TutorialLayer/PointerArrow'
 @onready var phone_bubble = get_parent().get_node("UI/PhoneBubble")
+@onready var pointer_arrow_anim: AnimationPlayer = $'../UI/TutorialLayer/PointerArrow/AnimationPlayer'
 
 
 func _ready() -> void:
 	_build_steps()
 
 	tutorial_layer.visible = false
-	highlight_react.visible = false
 	pointer_arrow.visible = false
+	pointer_arrow_anim.play("Hover")
 
 	phone_bubble.bubble_clicked.connect(_on_phone_bubble_clicked)
 
@@ -53,14 +53,21 @@ func _build_steps() -> void:
 		{
 			"id": "intro_4",
 			"speaker": "Manager",
-			"text": "This receipt shows what the customer wants.",
+			"text": "This receipt shows what the customer wants. At the top you can see main flowers",
 			"mode": "message",
-			"highlight_target": "Environment/Order/OrderNote/Highlight"
+			"highlight_target": "Environment/Order/MainFlowersMark"
 		},
 		{
 			"id": "intro_5",
 			"speaker": "Manager",
-			"text": "We always start with the main flowers at the top.",
+			"text": "At the bottom fillers flowers",
+			"mode": "message",
+			"highlight_target": "Environment/Order/FillersFlowersMark"
+		},
+		{
+			"id": "intro_6",
+			"speaker": "Manager",
+			"text": "We always start with the main flowers.",
 			"mode": "message"
 		},
 		{
@@ -69,7 +76,6 @@ func _build_steps() -> void:
 			"text": "Pick a main flower from the stand.",
 			"mode": "wait_action",
 			"action": "pick_main",
-			"highlight_target": "Environment/FlowerStand/Highlight"
 		},
 		{
 			"id": "complete_main_count",
@@ -77,7 +83,6 @@ func _build_steps() -> void:
 			"text": "Now finish placing all required main flowers.",
 			"mode": "wait_action",
 			"action": "complete_main_count",
-			"highlight_target": "Environment/Vase/Highlight"
 		},
 		{
 			"id": "remove_one_flower",
@@ -98,7 +103,7 @@ func _build_steps() -> void:
 			"text": "Use the Clear Vase button to reset everything.",
 			"mode": "wait_action",
 			"action": "clear_vase",
-			"highlight_target": "UI/ClearButton"
+			"highlight_target": "UI/ClearButton/TutorialMark"
 		},
 		{
 			"id": "rebuild_main_count",
@@ -125,7 +130,6 @@ func _build_steps() -> void:
 			"text": "Pick a filler flower.",
 			"mode": "wait_action",
 			"action": "pick_filler",
-			"highlight_target": "FlowerStand"
 		},
 		{
 			"id": "complete_filler_count",
@@ -146,7 +150,7 @@ func _build_steps() -> void:
 			"text": "When everything is correct, press Submit.",
 			"mode": "wait_action",
 			"action": "submit_bouquet",
-			"highlight_target": "UI/SubmitButton"
+			"highlight_target": "UI/SubmitButton/TutorialMark"
 		},
 		{
 			"id": "done_1",
@@ -182,6 +186,7 @@ func _on_phone_bubble_clicked() -> void:
 
 func start_tutorial() -> void:
 	tutorial_active = true
+	tutorial_completed = false
 	current_step_index = 0
 	tutorial_layer.visible = true
 	_show_current_step()
@@ -189,8 +194,8 @@ func start_tutorial() -> void:
 
 func finish_tutorial() -> void:
 	tutorial_active = false
+	tutorial_completed = true
 	tutorial_layer.visible = false
-	highlight_react.visible = false
 	pointer_arrow.visible = false
 	phone_bubble.hide_bubble()
 	start_with_tutorial = false
@@ -232,11 +237,10 @@ func _show_current_step() -> void:
 	if step.get("action", "") == "submit_bouquet":
 		gm.submit_button.disabled = false
 
-	highlight_react.visible = false
 	pointer_arrow.visible = false
 
 	if step.has("highlight_target"):
-		_show_highlight_for_path(step["highlight_target"])
+		_show_arrow_for_path(step["highlight_target"])
 
 	print(step.id)
 
@@ -278,21 +282,27 @@ func try_progress_action(action_name: String) -> void:
 	_show_current_step()
 
 
-func _show_highlight_for_path(node_path: String) -> void:
+func _show_arrow_for_path(node_path: String) -> void:
 	var target = get_parent().get_node_or_null(node_path)
 	if target == null:
 		return
 
-	var rect := _get_global_rect_for_node(target)
-	if rect.size == Vector2.ZERO:
+	pointer_arrow.visible = true
+
+	if target is Control:
+		var control := target as Control
+		pointer_arrow.global_position = Vector2(
+			control.global_position.x + control.size.x * 0.5 - pointer_arrow.texture.get_size().x * 0.5,
+			control.global_position.y
+		)
 		return
 
-	highlight_react.visible = true
-	highlight_react.position = rect.position - Vector2(6, 6)
-	highlight_react.size = rect.size + Vector2(12, 12)
-
-	pointer_arrow.visible = true
-	pointer_arrow.position = Vector2(rect.position.x + rect.size.x * 0.5 - 8.0, rect.position.y - 28.0)
+	if target is Node2D:
+		var n2d := target as Node2D
+		pointer_arrow.global_position = Vector2(
+			n2d.global_position.x - pointer_arrow.texture.get_size().x * 0.5,
+			n2d.global_position.y
+		)
 
 
 func _get_global_rect_for_node(target: Node) -> Rect2:
