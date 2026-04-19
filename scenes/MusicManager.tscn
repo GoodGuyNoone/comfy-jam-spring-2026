@@ -5,11 +5,12 @@
 [ext_resource type="AudioStream" uid="uid://b0rdfn1c5vaqx" path="res://assets/sounds/u_tybkgo50jo-lo-fi-357425.mp3" id="3_d6wjf"]
 [ext_resource type="AudioStream" uid="uid://bt1yi6des2lnk" path="res://assets/sounds/franzian-deo-lo-fi-467754.mp3" id="4_1gjyk"]
 [ext_resource type="AudioStream" uid="uid://cv4r8j2r7fbkh" path="res://assets/sounds/leberch-piano-513745.mp3" id="5_0w2qm"]
+[ext_resource type="AudioStream" uid="uid://b4k053fv16emw" path="res://assets/sounds/ribhavagrawal-chilling-caves-lo-fi-beats-music-302313.mp3" id="6_d6wjf"]
 
 [node name="MusicManager" type="Node" unique_id=2028992896]
 script = ExtResource("1_k17rw")
 menu_music = ExtResource("2_wh65u")
-game_music_tracks = Array[AudioStream]([ExtResource("4_1gjyk"), ExtResource("5_0w2qm"), ExtResource("3_d6wjf")])
+game_music_tracks = Array[AudioStream]([ExtResource("4_1gjyk"), ExtResource("5_0w2qm"), ExtResource("3_d6wjf"), ExtResource("6_d6wjf")])
 
 [node name="PlayerA" type="AudioStreamPlayer" parent="." unique_id=1539590062]
 

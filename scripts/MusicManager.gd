@@ -12,6 +12,7 @@ extends Node
 var active_player: AudioStreamPlayer
 var inactive_player: AudioStreamPlayer
 var current_bus_volume_db: float = 0.0
+var current_track_index: int = 0
 
 
 func _ready() -> void:
@@ -21,9 +22,11 @@ func _ready() -> void:
 	player_a.bus = "Master"
 	player_b.bus = "Master"
 
+	player_a.finished.connect(_on_track_finished)
+	player_b.finished.connect(_on_track_finished)
+
 
 func play_menu_music() -> void:
-	print("play_menu_music called, menu_music:", menu_music)
 	if menu_music == null:
 		return
 	_play_stream(menu_music)
@@ -33,8 +36,8 @@ func play_random_game_music() -> void:
 	if game_music_tracks.is_empty():
 		return
 
-	var next_track := game_music_tracks[randi() % game_music_tracks.size()]
-	_play_stream(next_track)
+	current_track_index = randi() % game_music_tracks.size()
+	_play_stream(game_music_tracks[current_track_index])
 
 
 func _play_stream(stream: AudioStream) -> void:
@@ -58,3 +61,16 @@ func _play_stream(stream: AudioStream) -> void:
 	var temp = active_player
 	active_player = inactive_player
 	inactive_player = temp
+
+
+func _on_track_finished() -> void:
+	if game_music_tracks.is_empty():
+		return
+
+	current_track_index += 1
+
+	if current_track_index >= game_music_tracks.size():
+		current_track_index = 0  # loop back to 1st track
+
+	var next_track = game_music_tracks[current_track_index]
+	_play_stream(next_track)

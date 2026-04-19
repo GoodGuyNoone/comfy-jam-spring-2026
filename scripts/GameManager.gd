@@ -347,11 +347,9 @@ func update_receipt_ui() -> void:
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2, is_filler: bool) -> void:
 	if is_animating:
-		print("1")
 		return
 
 	if tutorial_blocks_pick(is_filler):
-		print("2")
 		return
 
 	refresh_phase_state()
