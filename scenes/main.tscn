@@ -42,6 +42,11 @@
 [ext_resource type="Texture2D" uid="uid://cc58bcgsvgfs2" path="res://assets/MainScene/ClearButtonClicked.png" id="36_pdwbg"]
 [ext_resource type="Texture2D" uid="uid://urh46dudsolj" path="res://assets/MainScene/ClearButtonHover.png" id="37_5grtr"]
 [ext_resource type="PackedScene" uid="uid://dw3r7tasykefw" path="res://scenes/PhoneBubble.tscn" id="38_pdwbg"]
+[ext_resource type="PackedScene" uid="uid://ss8rvj2140q2" path="res://scenes/MusicManager.tscn" id="43_vua0o"]
+[ext_resource type="AudioStream" uid="uid://dp5jjl7hcobaj" path="res://assets/sounds/MainMenu.mp3" id="44_t70y2"]
+[ext_resource type="AudioStream" uid="uid://cv4r8j2r7fbkh" path="res://assets/sounds/leberch-piano-513745.mp3" id="45_s3wmy"]
+[ext_resource type="AudioStream" uid="uid://bt1yi6des2lnk" path="res://assets/sounds/franzian-deo-lo-fi-467754.mp3" id="46_gdcyb"]
+[ext_resource type="AudioStream" uid="uid://b0rdfn1c5vaqx" path="res://assets/sounds/u_tybkgo50jo-lo-fi-357425.mp3" id="47_oa6sj"]
 
 [sub_resource type="Animation" id="Animation_8b871"]
 resource_name = "Hover"
@@ -387,3 +392,7 @@ packed_bouquet_scene = ExtResource("25_g6wdg")
 [node name="TutorialManager" type="Node2D" parent="." unique_id=1748724015]
 position = Vector2(0, 2)
 script = ExtResource("14_mwfav")
+
+[node name="MusicManager" parent="." unique_id=2028992896 instance=ExtResource("43_vua0o")]
+menu_music = ExtResource("44_t70y2")
+game_music_tracks = Array[AudioStream]([ExtResource("45_s3wmy"), ExtResource("46_gdcyb"), ExtResource("47_oa6sj")])

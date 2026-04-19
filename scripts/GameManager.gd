@@ -36,6 +36,8 @@ var delivered_bouquet: Node2D = null
 func _ready() -> void:
 	randomize()
 
+	MusicManager.play_random_game_music()
+
 	flower_stand_pots.flower_selected.connect(_on_flower_selected)
 	submit_button.pressed.connect(_on_submit_pressed)
 	clear_button.pressed.connect(_on_clear_pressed)

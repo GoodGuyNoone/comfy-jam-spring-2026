@@ -6,8 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://dbp7wmefutfud" path="res://assets/MainMenu/PinkButton.png" id="4_l72w3"]
 [ext_resource type="Texture2D" uid="uid://cao1qjkl6cdjx" path="res://assets/MainMenu/PinkAlfalButton.png" id="5_ucygd"]
 [ext_resource type="FontFile" uid="uid://ca6un644pjiq5" path="res://assets/UI/Peaberry-Base.otf" id="6_8a8k8"]
+[ext_resource type="Texture2D" uid="uid://sydmhrwynfxu" path="res://assets/MainMenu/MusicSprite.png" id="7_2nypq"]
 [ext_resource type="Texture2D" uid="uid://ddepypcweydms" path="res://assets/MainMenu/PurpleButton.png" id="7_mipys"]
+[ext_resource type="Texture2D" uid="uid://vlgsdpjf137q" path="res://assets/MainMenu/MusicHandle.png" id="8_bky6r"]
 [ext_resource type="Texture2D" uid="uid://do2rh2w7ah5s8" path="res://assets/MainMenu/PurpleAlfalButton.png" id="8_mipys"]
+[ext_resource type="Script" uid="uid://o3w763d5lg8i" path="res://Scripts/LeafSpawner.gd" id="9_7la6k"]
+[ext_resource type="PackedScene" uid="uid://cm30j33h8k3i0" path="res://scenes/Leaf.tscn" id="10_2nypq"]
+[ext_resource type="Texture2D" uid="uid://c0orxtds8bmiv" path="res://assets/MainMenu/Feedback.png" id="13_l4mxc"]
+
+[sub_resource type="DPITexture" id="DPITexture_bky6r"]
 
 [node name="MainMenu" type="Control" unique_id=1518839107]
 layout_mode = 3
@@ -35,11 +42,6 @@ grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="SummaryLabel" type="Label" parent="VBoxContainer" unique_id=666920722]
-visible = false
-layout_mode = 2
-horizontal_alignment = 1
-
 [node name="StartButton" type="TextureButton" parent="VBoxContainer" unique_id=271945397]
 layout_mode = 2
 texture_normal = ExtResource("4_l72w3")
@@ -59,6 +61,37 @@ text = "Start"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1422082474]
+layout_mode = 2
+texture = ExtResource("7_2nypq")
+
+[node name="Text" type="Label" parent="VBoxContainer/TextureRect" unique_id=1865915209]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 9.0
+offset_right = 89.0
+offset_bottom = 36.0
+theme_override_colors/font_outline_color = Color(0.4862745, 0.21960784, 0.41960785, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_8a8k8")
+theme_override_font_sizes/font_size = 18
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/TextureRect" unique_id=260695659]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 79.0
+offset_bottom = 52.0
+theme_override_icons/grabber = ExtResource("8_bky6r")
+theme_override_icons/grabber_highlight = ExtResource("8_bky6r")
+theme_override_icons/tick = SubResource("DPITexture_bky6r")
+max_value = 1.0
+step = 0.1
+value = 1.0
+
 [node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=810950991]
 layout_mode = 2
 texture_normal = ExtResource("7_mipys")
@@ -77,3 +110,24 @@ theme_override_font_sizes/font_size = 18
 text = "Exit"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LeafSpawner" type="Node2D" parent="." unique_id=1950172737]
+script = ExtResource("9_7la6k")
+leaf_scene = ExtResource("10_2nypq")
+
+[node name="Feedback" type="Sprite2D" parent="." unique_id=2057013840]
+position = Vector2(165, 186)
+texture = ExtResource("13_l4mxc")
+
+[node name="SummaryLabel" type="Label" parent="Feedback" unique_id=666920722]
+offset_left = -82.0
+offset_top = -36.0
+offset_right = 82.0
+offset_bottom = 151.0
+theme_override_colors/font_outline_color = Color(0.4862745, 0.21960784, 0.41960785, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_8a8k8")
+theme_override_font_sizes/font_size = 11
+text = "Successfull bouquets  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum "
+horizontal_alignment = 1
+autowrap_mode = 3

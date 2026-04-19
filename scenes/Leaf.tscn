@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cm30j33h8k3i0"]
+
+[ext_resource type="Texture2D" uid="uid://bd880rvphru42" path="res://assets/MainMenu/Leaf.png" id="1_76gdt"]
+[ext_resource type="Script" uid="uid://25egb1oodjsk" path="res://Scripts/Leaf.gd" id="2_gw1oa"]
+
+[node name="Leaf" type="Sprite2D" unique_id=737346989]
+texture = ExtResource("1_76gdt")
+script = ExtResource("2_gw1oa")
