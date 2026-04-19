@@ -28,8 +28,9 @@ func _ready() -> void:
 
 
 func _on_start_pressed() -> void:
-	if game_scene != null:
-		get_tree().change_scene_to_packed(game_scene)
+	start_button.disabled = true
+	await get_tree().create_timer(0.2).timeout
+	get_tree().change_scene_to_packed(game_scene)
 
 
 func _on_exit_pressed() -> void:

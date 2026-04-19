@@ -13,6 +13,7 @@ var active_player: AudioStreamPlayer
 var inactive_player: AudioStreamPlayer
 var current_bus_volume_db: float = 0.0
 var current_track_index: int = 0
+var is_switching: bool = false
 
 
 func _ready() -> void:
@@ -41,8 +42,13 @@ func play_random_game_music() -> void:
 
 
 func _play_stream(stream: AudioStream) -> void:
+	if is_switching:
+		return
+
 	if active_player.stream == stream and active_player.playing:
 		return
+
+	is_switching = true
 
 	inactive_player.stop()
 	inactive_player.stream = stream
@@ -61,6 +67,8 @@ func _play_stream(stream: AudioStream) -> void:
 	var temp = active_player
 	active_player = inactive_player
 	inactive_player = temp
+
+	is_switching = false
 
 
 func _on_track_finished() -> void:
