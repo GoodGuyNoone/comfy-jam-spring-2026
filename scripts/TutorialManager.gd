@@ -193,6 +193,7 @@ func start_tutorial() -> void:
 
 
 func finish_tutorial() -> void:
+	print("tutorial finished")
 	tutorial_active = false
 	tutorial_completed = true
 	tutorial_layer.visible = false
@@ -218,6 +219,9 @@ func can_continue_message() -> bool:
 
 
 func _show_current_step() -> void:
+	print("current step_index")
+	print(current_step_index)
+	print(steps.size())
 	if current_step_index >= steps.size():
 		finish_tutorial()
 		return
@@ -261,6 +265,8 @@ func next_message_step() -> void:
 		gm.orderNode.visible = true
 
 	current_step_index += 1
+	print("current_step_index")
+	print(current_step_index)
 	_show_current_step()
 
 

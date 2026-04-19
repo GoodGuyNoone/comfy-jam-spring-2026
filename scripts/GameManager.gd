@@ -3,7 +3,7 @@ extends Node
 @export var flower_scene: PackedScene
 @export var packed_bouquet_scene: PackedScene
 
-const MAX_ORDERS: int = 2
+const MAX_ORDERS: int = 9
 
 var successful_bouquets: int = 0
 var wrong_bouquets: int = 0
@@ -85,8 +85,6 @@ func start_customer_round() -> void:
 	vase.clear_vase()
 	generate_current_order_by_progression()
 
-	submit_button.disabled = true
-
 	submit_button.disabled = false
 	clear_button.disabled = false
 
@@ -122,9 +120,13 @@ func _on_tutorial_finished() -> void:
 
 
 func tutorial_blocks_pick(is_filler: bool) -> bool:
+	if tutorial_manager == null:
+		return false
+
+	if not tutorial_manager.is_tutorial_active():
+		return false
+
 	print("tutorial_active:", tutorial_manager.is_tutorial_active(), " completed:", tutorial_manager.tutorial_completed)
-	if tutorial_manager != null and tutorial_manager.start_with_tutorial and not tutorial_manager.is_tutorial_active() and not tutorial_manager.tutorial_completed:
-		return true
 	
 	var step: Dictionary = tutorial_manager.get_current_step()
 	if step.is_empty():
@@ -345,9 +347,11 @@ func update_receipt_ui() -> void:
 
 func _on_flower_selected(flower_id: String, flower_texture: Texture2D, start_global_position: Vector2, is_filler: bool) -> void:
 	if is_animating:
+		print("1")
 		return
 
 	if tutorial_blocks_pick(is_filler):
+		print("2")
 		return
 
 	refresh_phase_state()
@@ -432,7 +436,9 @@ func _on_submit_pressed() -> void:
 
 	if tutorial_manager != null and tutorial_manager.is_tutorial_active():
 		if is_full_bouquet_correct():
-			tutorial_manager.finish_tutorial()
+			update_submit_state()
+			tutorial_manager.try_progress_action("submit_bouquet")
+			print("right")
 		else:
 			var step: Dictionary = tutorial_manager.get_current_step()
 			if not step.is_empty():

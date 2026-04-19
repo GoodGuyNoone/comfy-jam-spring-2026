@@ -40,7 +40,6 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
-	print("mouse entered")
 	for child in outline_root.get_children():
 		if child is Sprite2D:
 			child.visible = true
